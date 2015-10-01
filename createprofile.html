@@ -2,26 +2,25 @@
 <html>
     <head>
         <title>Create Your Profile</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>
             function saveprofile() {
-                var data = {
+                var datak = {
                     "name":document.getElementById("name").value,
                     "phno":document.getElementById("phno").value,
                     "address":document.getElementById("address").value
                 };
-                var objectDataString = JSON.stringify(data);
+                var json_Data = JSON.stringify(datak);
+                console.log(json_Data);
                 $.ajax({
                     type: 'get',
                     url: '/createprofile',
                     dataType: 'json',
-                    data: objectDataString,
-                    success: function (data) {
-                        console.log(JSON.stringify(data));
-                       // alert( JSON.stringify(data));
-
+                    data: {
+                        jsonData: json_Data
                     },
                     error: function () {
-                        alert("SomeThig went wrong please fill in again");
+                        alert("failure");
                     }
                 });
             }

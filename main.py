@@ -44,23 +44,41 @@ class Room(ndb.Model):
 
 class Hotel(ndb.Model):
     name = ndb.StringProperty(indexed=True)
+    admin=ndb.StructuredProperty(Person)
     rooms = ndb.StructuredProperty(Room, repeated=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template = JINJA_ENVIRONMENT.get_template('home.html')
+        template = JINJA_ENVIRONMENT.get_template('createprofile.html')
         if user:
-            q1=Person.query(mailId=user.emailid())
+            q1=Person.query(Person.mailId==user.email())
             if q1 is None:
                 template=JINJA_ENVIRONMENT.get_template('createprofile.html')
+                self.response.write(template.render())
             self.response.write(template.render())
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
+class userProfile(webapp2.RequestHandler):
+    def get(self):
+        user=users.get_current_user();
+        vale = json.loads(cgi.escape(self.request.body))
+        vals=vale['jsonData']
+        q=Hotel.query()
+        if q is not None:
+            if q.admin is not None:
+                Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="client").put()
+            else:
+                Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="admin").put()
+        else:
+            Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="admin").put()
 
+        obj = {u"testEnd":"succcersss"}
+        template = JINJA_ENVIRONMENT.get_template('home.html')
+        self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/asd',MainHandler)
+    ('/createprofile',userProfile)
 ], debug=True)
