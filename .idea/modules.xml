@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/helloworls.iml" filepath="$PROJECT_DIR$/.idea/helloworls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../MSIT/internship/course/git/taraquiz/.idea/taraquiz.iml" filepath="$PROJECT_DIR$/../../MSIT/internship/course/git/taraquiz/.idea/taraquiz.iml" />
+    </modules>
+  </component>
+</project>
