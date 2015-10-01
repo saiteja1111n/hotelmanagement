@@ -1,0 +1,38 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Create Your Profile</title>
+        <script>
+            function saveprofile() {
+                var data = {
+                    "name":document.getElementById("name").value,
+                    "phno":document.getElementById("phno").value,
+                    "address":document.getElementById("address").value
+                };
+                var objectDataString = JSON.stringify(data);
+                $.ajax({
+                    type: 'get',
+                    url: '/createprofile',
+                    dataType: 'json',
+                    data: objectDataString,
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                       // alert( JSON.stringify(data));
+
+                    },
+                    error: function () {
+                        alert("SomeThig went wrong please fill in again");
+                    }
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <form>
+            <input type="text" id="name" placeholder="giveyourname"><br>
+            <input type="text" id="phno" placeholder="phno"><br>
+            <input type=text" id="address" placeholder="Giveyou address here"><br>
+            <button onclick="saveprofile()"></button>
+        </form>
+    </body>
+</html>

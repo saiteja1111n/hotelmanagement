@@ -34,21 +34,26 @@ class Person(ndb.Model):
     name = ndb.StringProperty(indexed=False)
     mailId = ndb.StringProperty(indexed=True)
     phno = ndb.StringProperty(indexed=False)
+    adderss=ndb.StringProperty(indexed = False)
     type = ndb.StringProperty(indexed=False)
 
 class Room(ndb.Model):
-    hotelname = 
+    number = ndb.IntegerProperty(indexed =False)
+    facilities = ndb.StringProperty(indexed = False)
+    status = ndb.StringProperty(indexed = False)
 
 class Hotel(ndb.Model):
-	hotelname = ndb.StringProperty(indexed=True)
-	roomsavailable = ndb.IntegerProperty(indexed=True)
-	bookedrooms = ndb.IntegerProperty(indexed=True)
+    name = ndb.StringProperty(indexed=True)
+    rooms = ndb.StructuredProperty(Room, repeated=True)
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
         template = JINJA_ENVIRONMENT.get_template('home.html')
         if user:
+            q1=Person.query(mailId=user.emailid())
+            if q1 is None:
+                template=JINJA_ENVIRONMENT.get_template('createprofile.html')
             self.response.write(template.render())
         else:
             self.redirect(users.create_login_url(self.request.uri))
