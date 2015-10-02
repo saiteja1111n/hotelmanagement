@@ -12,17 +12,13 @@
                 };
                 var json_Data = JSON.stringify(datak);
                 console.log(json_Data);
-                $.ajax({
-                    type: 'get',
-                    url: '/createprofile',
-                    dataType: 'json',
-                    data: {
-                        jsonData: json_Data
-                    },
-                    error: function () {
-                        alert("failure");
-                    }
-                });
+                $.post("/createprofile",json_Data)
+				.done(function(data){
+					console.log("info: questions loaded from server");
+				})
+				.fail(function(data){
+					alert("this is a failure");
+				});
             }
         </script>
     </head>

@@ -23,7 +23,14 @@ import webapp2
 import logging
 from google.appengine.ext import ndb
 from google.appengine.api import users
-
+from google.appengine.api import mail
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext.webapp.util import run_wsgi_app
+from pprint import pprint
+import datetime
+from datetime import datetime
+from random import shuffle
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -34,7 +41,7 @@ class Person(ndb.Model):
     name = ndb.StringProperty(indexed=False)
     mailId = ndb.StringProperty(indexed=True)
     phno = ndb.StringProperty(indexed=False)
-    adderss=ndb.StringProperty(indexed = False)
+    address=ndb.StringProperty(indexed = False)
     type = ndb.StringProperty(indexed=False)
 
 class Room(ndb.Model):
@@ -50,31 +57,27 @@ class Hotel(ndb.Model):
 class MainHandler(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        template = JINJA_ENVIRONMENT.get_template('createprofile.html')
+        template = JINJA_ENVIRONMENT.get_template('home.html')
         if user:
-            q1=Person.query(Person.mailId==user.email())
+            q1=Person.query(Person.mailId==user.email()).get()
             if q1 is None:
                 template=JINJA_ENVIRONMENT.get_template('createprofile.html')
                 self.response.write(template.render())
-            self.response.write(template.render())
+            else:
+                self.response.write(template.render())
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
 class userProfile(webapp2.RequestHandler):
-    def get(self):
+    def post(self):
         user=users.get_current_user();
-        vale = json.loads(cgi.escape(self.request.body))
-        vals=vale['jsonData']
-        q=Hotel.query()
+        vals = json.loads(cgi.escape(self.request.body))
+        q=Person.query()
         if q is not None:
-            if q.admin is not None:
-                Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="client").put()
-            else:
-                Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="admin").put()
+            Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="client").put()
         else:
             Person(name=vals['name'],mailId=user.email(),phno=vals['phno'],address=vals['address'],type="admin").put()
-
-        obj = {u"testEnd":"succcersss"}
+        obj = {u"testEnd":vals['name']}
         template = JINJA_ENVIRONMENT.get_template('home.html')
         self.response.write(template.render())
 
