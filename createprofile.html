@@ -3,31 +3,14 @@
     <head>
         <title>Create Your Profile</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script>
-            function saveprofile() {
-                var datak = {
-                    "name":document.getElementById("name").value,
-                    "phno":document.getElementById("phno").value,
-                    "address":document.getElementById("address").value
-                };
-                var json_Data = JSON.stringify(datak);
-                console.log(json_Data);
-                $.post("/createprofile",json_Data)
-				.done(function(data){
-					console.log("info: questions loaded from server");
-				})
-				.fail(function(data){
-					alert("this is a failure");
-				});
-            }
-        </script>
+        <script src="javascripts/hotelapp.js"></script>
     </head>
     <body>
-        <form>
-            <input type="text" id="name" placeholder="giveyourname"><br>
-            <input type="text" id="phno" placeholder="phno"><br>
-            <input type=text" id="address" placeholder="Giveyou address here"><br>
-            <button onclick="saveprofile()"></button>
+        <form action="\createprofile" method="post">
+            <input type="text" name="name" placeholder="giveyourname"><br>
+            <input type="text" name="phno" placeholder="phno"><br>
+            <input type=text" name="address" placeholder="Giveyou address here"><br>
+            <input type="submit" value="submit">
         </form>
     </body>
 </html>
