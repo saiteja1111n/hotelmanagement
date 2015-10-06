@@ -2,18 +2,12 @@
 <html>
 	<head>
 		<title>Home Page</title>
-		<script>
-			function getaroom(){
-				
-			}
-			function login() {
-			
-			}
-		</script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="javascripts/hotelapp.js"></script>
 	</head>
-	<body>
-		<h1>This Is My home Page</h1>
-		<button onclick="getaroom()">Get A Room</button>
-		<button onclick="login()">Login Through Google</button>
+	<body onload="getname()">
+		<h1>This Is<h2 id="name"> my </h2> home Page</h1>
+		<button onclick=" getaroom()">Get A Room</button>
+        <button onclick="logout()">Logout</button>
 	</body>
 </html>

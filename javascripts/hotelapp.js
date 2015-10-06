@@ -22,19 +22,5 @@ function getname(){
 }
 
 function saveprofile1() {
-    var datak = {
-        "name":document.getElementById("name").value,
-        "phno":document.getElementById("phno").value,
-        "address":document.getElementById("address").value
-    };
-    var json_Data = JSON.stringify(datak);
-    console.log(json_Data);
-    $.post("/createprofile",json_Data)
-    .done(function(){
-        return true;
-    })
-    .fail(function(){
-        console.log("please try again");
-        return false;
-    });
+    return false;
  }
