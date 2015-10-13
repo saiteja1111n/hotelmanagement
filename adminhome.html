@@ -5,10 +5,16 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="javascripts/hotelapp.js"></script>
 	</head>
-	<body onload="getname()">
+	<body onload="roomstatus()">
 		<h1>This Is <h2 id="name">My</h2> home Page</h1>
-		<button onclick="getaroom()">Add a room</button>
+        <input id="roomno" placeholder="Rooms to be     added">
+		<button onclick="addrooms()">Add rooms</button>
 		<button onclick="login()">ReMOVE A room</button>
          <button onclick="logout()">Logout</button>
+        <div id="rooms" style="width: 800px; height: 600px;"></div>
+        <div id="bookedrooms"></div>
+        <div id="availablerooms"></div>
+        <div style="width: 800px; height: 600px; overflow-y: auto;">
+        </div>
 	</body>
 </html>

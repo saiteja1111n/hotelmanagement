@@ -38,21 +38,16 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 
 class Room(ndb.Model):
-    number = ndb.IntegerProperty(indexed =False)
-    status = ndb.StringProperty(indexed = False)
+    number = ndb.IntegerProperty(indexed =True)
+    status = ndb.StringProperty(indexed = True)
+    name = ndb.StringProperty(indexed=True)
 
 class Person(ndb.Model):
-    name = ndb.StringProperty(indexed=False)
-    mailId = ndb.StringProperty(indexed=True)
-    phno = ndb.StringProperty(indexed=False)
-    address=ndb.StringProperty(indexed = False)
-    type = ndb.StringProperty(indexed=False)
-    bookedrooms = ndb.StructuredProperty(Room,repeated=True)
-
-class Hotel(ndb.Model):
     name = ndb.StringProperty(indexed=True)
-    admin=ndb.StructuredProperty(Person)
-    rooms = ndb.StructuredProperty(Room, repeated=True)
+    mailId = ndb.StringProperty(indexed=True)
+    phno = ndb.StringProperty(indexed=True)
+    address=ndb.StringProperty(indexed = True)
+    type = ndb.StringProperty(indexed=True)
 
 class loginhome(webapp2.RequestHandler):
     def get(self):
@@ -85,14 +80,16 @@ class userProfile(webapp2.RequestHandler):
         try:
             user=users.get_current_user()
             if user:
-                q=Person.query(Person.mailId != None).count()
+                q1=Person.query(Person.mailId != None).count()
                 template=None
-                if q is not 0:
+                if q1 is not 0:
                     Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="client").put()
                     template=JINJA_ENVIRONMENT.get_template('home.html')
                 else:
-                    Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="admin").put()
-                    template=JINJA_ENVIRONMENT.get_template('adminhome.html')
+                   Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="admin").put()
+                   template=JINJA_ENVIRONMENT.get_template('adminhome.html')
+                   for i in range(1,6):
+                       Room(number=i,status="Available").put()
                 self.response.write(template.render())
             else:
                 self.redirect(users.create_login_url(self.request.uri))
@@ -105,11 +102,11 @@ class getname(webapp2.RequestHandler):
     def post(self):
         user=users.get_current_user()
         if user:
-            q=Person.query(Person.mailId==user.email()).get()
-            obj={u"name":q.name}
+            q=Person.query(Person.mailId == user.email()).get()
+            logging.error(q)
+            obj = {u"name":q.name}
             ss=json.dumps(obj)
             self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
-            logging.error("Getname")
             self.response.write(ss)
         else:
             self.redirect(users.create_login_url(self.request.uri))
@@ -119,6 +116,8 @@ class homepage(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
             q=Person.query(Person.mailId==user.email()).get()
+            logging.error(q)
+            logging.error("this is client homepage")
             if q is None:
                 template=JINJA_ENVIRONMENT.get_template('createprofile.html')
                 self.response.write(template.render())
@@ -138,6 +137,100 @@ class logout(webapp2.RequestHandler):
         logout_url = users.create_logout_url('/')
         self.redirect(logout_url)
 
+class addroom(webapp2.RequestHandler):
+    def post(self):
+        user=users.get_current_user()
+        if user:
+            vals = json.loads(cgi.escape(self.request.body))
+            n=int(vals['numberofrooms'])
+            q1=Room.query(Room.number!=None).count()
+            for i in range(0,n):
+                Room(number=i+q1+1,status="Available").put()
+            obj = {u"meassage":"success"}
+            ss=json.dumps(obj)
+            self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+            self.response.write(ss)
+        else:
+            self.redirect(users.create_login_url(self.requesuri))
+
+class getpersonroomstatus(webapp2.RequestHandler):
+    def post(self):
+        user=users.get_current_user()
+        if user:
+           query1=Person.query(Person.mailId==user.email()).get()
+           logging.error(query1)
+           logging.error(query1.type)
+           if query1.type == "admin":
+               q=Room.query(Room.number!=None)
+               list1 = []
+               list3 = []
+               for q1 in q:
+                   stat={"number":q1.number,"status":q1.status}
+                   if q1.status is "booked":
+                       list1.append(stat)
+                   else:
+                       list3.append(stat)
+               list2  ={"bookedrooms":list1,"availablerooms":list3}
+               ss=json.dumps(list2)
+               self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+               self.response.write(ss)
+           else:
+               q=Room.query(Room.name==user.email())
+               list1=[]
+               list2=[]
+               for q1 in q:
+                   stat={"number":q1.number,"status":q1.status}
+                   list1.append(stat)
+               q=Room.query(Room.status=="available")
+               for q1 in q:
+                   stat={"number":q1.number,"status":q1.status}
+                   list2.append(stat)
+           list3={"bookedrooms":list1,"availablerooms":list2}
+           ss=json.dumps(list3)
+           self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+           self.response.write(ss)
+        else:
+            self.redirect(users.create_login_url(self.requesuri))
+
+
+class cancelbookedroom(webapp2.RequestHandler):
+    def post(self):
+        user=users.get_current_user()
+        if user:
+           vals = json.loads(cgi.escape(self.request.body))
+           n=vals['rooms']
+           n1=n.split(",")
+           for n2 in n1:
+               q1=Room.query(Room.number==n2).get()
+               q1.status="available"
+               q1.name=""
+               q1.put()
+           obj = {u"message":"success"}
+           ss=json.dumps(obj)
+           self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+           self.response.write(ss)
+        else:
+            self.redirect(users.create_login_url(self.requesuri))
+
+class bookrooms(webapp2.RequestHandler):
+    def post(self):
+        user=users.get_current_user()
+        if user:
+           vals = json.loads(cgi.escape(self.request.body))
+           n=vals['rooms']
+           n1=n.split(",")
+           for n2 in n1:
+               q1=Room.query(Room.number==n2).get()
+               q1.name=user.email()
+               q1.status="booked"
+           obj = {u"message":"success"}
+           ss=json.dumps(obj)
+           self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+           self.response.write(ss)
+        else:
+            self.redirect(users.create_login_url(self.requesuri))
+
+
 app = webapp2.WSGIApplication([
 
     ('/', loginhome),
@@ -145,5 +238,7 @@ app = webapp2.WSGIApplication([
     ('/getname',getname),
     ('/homepage',homepage),
     ('/login',MainHandler),
-    ('/logout',logout)
+    ('/logout',logout),
+    ('/addroom',addroom),
+    ('/getroomstatus',getpersonroomstatus)
 ], debug=True)
