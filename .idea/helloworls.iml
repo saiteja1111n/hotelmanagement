@@ -5,6 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="taraquiz" />
-    <orderEntry type="module" module-name="guestbook" />
+    <orderEntry type="module" module-name="Hotel-reservation-website" />
   </component>
 </module>

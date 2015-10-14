@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Untitled Document</title>
+		<link rel="stylesheet" href="style.css" type="text/css" />
+	</head>
+	<body>
+	
+	 <div id="topheader">
+	 
+		 <h1  align="center">The Hotel Plaza</h1>
+		
+			<div id="buttons">
+			 
+				<!--<a  class="btn" href="index.html">Home</a>-->
+				<a  class="btn" href="index.html">Log Out</a>
+				
+			</div>
+	</div>
+	
+		<div class="logo"><p > Logged in as</p></div>
+	
+				<div class="login-block-admin">
+					<h1>User's Page</h1>
+
+					<div id="showBookings">
+						<div id="show">  
+								<div class="userbuttons">
+									 <input   style="padding-top:10px" id="button"  type="submit" name="getroom" value="Get A Room"  align="middle" />
+									 <input   style="padding-top:10px" id="button"  type="submit" name="cancelroom" 
+									 		value="Cancel A Room"  align="middle"/>
+								</div><br><br>
+								<div class="userdetails">
+									<p align="left">Name:{{name}}</p>
+									<p align="left"><br>No Of rooms you booked:{{roomsubooked}}</p>
+								 
+								</div>
+						</div>
+						<div style="background:#FFFFFF" id="customerDetails">
+							   <div id="getrooms">
+							   		<p><br>Enter a room number to get the details: <br /><input type="text" value=" " name="roomnumber"</p> 
+									 <input style="padding-top:10px" id="button"  type="submit" name="getbutton" value="Get"  align="middle" />
+								</div>
+								<div id="cancelroom">
+									<div id="addedrooms">
+										<p><br>Your Reserved rooms are: {{reservedrooms}}</p>
+									</div>
+									<div id="cancelselectedrooms">
+										<p><br>Enter a room number you wish to cancel: <br /><input type="text" value=" " name="canceltheroom"</p> 
+										 <input style="padding-top:10px" id="button"  type="submit" name="cancelroom" value="Cancel"  align="middle" />
+									</div>
+								 
+								</div>
+							   
+							    
+						</div>
+				
+					</div>
+					<br>
+				 
+					<div class="addroomsa">
+						   <p style="color:#990000" ><br> 
+								 
+						   </p>
+					 </div>
+					 	<div   align="center" class="status">
+						   <p  align="center" > Shows the status regarding the reserved or canceled rooms(initially hidden)
+								 
+							   
+						   </p>
+				</div>
+				
+		<script type="text/javascript">
+			document.getElementById("getbutton").onclick = function ()
+			{
+				var data =   document.getElementById("name").value 
+				
+				
+			};
+			
+			
+			document.getElementById("addbutton").onclick = function ()
+			{
+				 
+				
+			};
+			
+		</script>
+		
+		
+ 	</body>
+</html>

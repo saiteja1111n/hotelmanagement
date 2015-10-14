@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Sign Up</title>
+	<link rel="stylesheet" href="/styles/style.css" type="text/css" />
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="javascripts/hotelapp.js"></script>
+</head>
+
+
+<body>
+	 <div id="topheader">
+		 <h1  align="center">The Hotel Plaza</h1>
+			<div id="buttons">
+			 
+				<a  class="btn" href="/logout">Logout</a>
+			</div>
+	</div>
+		<div style=" width: 213px;
+    height: 20px" > </div>
+				<div class="login-block">
+					<h1 align="center">Create Your Profile</h1>
+						<form method="post" action="/createprofile">
+					Enter Your Name:<input type="text" value="" placeholder="Username" name="name" />
+					Enter Your Phone Number: <input type="text" value="" name="phno" placeholder="Phone Number" />
+                    Enter Your Address: <input type="text" value="" name="address" placeholder="Address"/>
+					
+					<input  id="button" type ="submit" name="submit" value="Save"  align="middle" />
+					</form>
+
+				</div>
+</div>
+</body>
+</html>

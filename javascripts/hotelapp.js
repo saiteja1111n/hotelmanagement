@@ -39,10 +39,16 @@ function logout() {
     window.location="/logout";
 }
 function roomstatus() {
+    var data1="";
     $.post("/getroomstatus")
     .done(function(data){
         console.log(data)
+        data1=JSON.parse(data);
     });
+    var s="<h1>Available Rooms</h1>";
+    for(var i=0,i<data1.length;i++) {
+
+    }
 }
 
 function getname(){

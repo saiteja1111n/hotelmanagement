@@ -52,8 +52,7 @@ class Person(ndb.Model):
 class loginhome(webapp2.RequestHandler):
     def get(self):
         user =users.get_current_user()
-        template=JINJA_ENVIRONMENT.get_template('loginhome.html')
-        logging.error("login error")
+        template=JINJA_ENVIRONMENT.get_template('index.html')
         self.response.write(template.render())
 
 
@@ -63,7 +62,7 @@ class MainHandler(webapp2.RequestHandler):
         if user:
             q1=Person.query(Person.mailId==user.email()).get()
             if q1 is None:
-                template=JINJA_ENVIRONMENT.get_template('createprofile.html')
+                template=JINJA_ENVIRONMENT.get_template('signup.html')
                 self.response.write(template.render())
             else:
                 if q1.type == 'admin':
@@ -192,6 +191,27 @@ class getpersonroomstatus(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url(self.requesuri))
 
+class removerooms(webapp2.RequestHandler):
+    def post(self):
+        user=users.get_current_user()
+        if user:
+           vals = json.loads(cgi.escape(self.request.body))
+           n=vals['rooms']
+           n1=n.split(",")
+           list1=[]
+           for n2 in n1:
+               q1=Room.query(Room.number==n2).get()
+               if q1 is not None:
+                   q1.delete()
+               else:
+                   list1.append(n2)
+           obj = {u"message":"success",u"unsuccessfull":list1}
+           ss=json.dumps(obj)
+           self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+           self.response.write(ss)
+        else:
+            self.redirect(users.create_login_url(self.requesuri))
+
 
 class cancelbookedroom(webapp2.RequestHandler):
     def post(self):
@@ -219,17 +239,25 @@ class bookrooms(webapp2.RequestHandler):
            vals = json.loads(cgi.escape(self.request.body))
            n=vals['rooms']
            n1=n.split(",")
+           list1=[]
            for n2 in n1:
                q1=Room.query(Room.number==n2).get()
+               if q1 is not None:
+                   list1.append(n2)
                q1.name=user.email()
                q1.status="booked"
-           obj = {u"message":"success"}
+           obj = {u"message":"success",u"unsuccessful":list1}
            ss=json.dumps(obj)
            self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
            self.response.write(ss)
         else:
             self.redirect(users.create_login_url(self.requesuri))
 
+
+class testtemplate(webapp2.RequestHandler):
+    def get(self):
+        template=JINJA_ENVIRONMENT.get_template('index.html')
+        self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
 
@@ -240,5 +268,6 @@ app = webapp2.WSGIApplication([
     ('/login',MainHandler),
     ('/logout',logout),
     ('/addroom',addroom),
-    ('/getroomstatus',getpersonroomstatus)
+    ('/getroomstatus',getpersonroomstatus),
+    ('/test',testtemplate)
 ], debug=True)
