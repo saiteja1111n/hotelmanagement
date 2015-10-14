@@ -90,7 +90,7 @@ class userProfile(webapp2.RequestHandler):
                        Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="admin").put()
                        template=JINJA_ENVIRONMENT.get_template('adminpage.html')
                        for i in range(1,6):
-                           Room(number=i,status="Available").put()
+                           Room(number=i,status="available").put()
                     self.response.write(template.render())
                 else:
                     if q2.type=="admin":
@@ -161,13 +161,14 @@ class getpersonroomstatus(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
            query1=Person.query(Person.mailId==user.email()).get()
+           logging.error(query1)
            if query1.type == "admin":
                q=Room.query(Room.number!=None)
                list1 = []
                list3 = []
                for q1 in q:
                    stat={"number":q1.number,"status":q1.status}
-                   if q1.status is "booked":
+                   if q1.status == "booked":
                        list1.append(stat)
                    else:
                        list3.append(stat)
@@ -176,16 +177,17 @@ class getpersonroomstatus(webapp2.RequestHandler):
                self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
                self.response.write(ss)
            else:
-               q=Room.query(Room.name==user.email())
+               q=Room.query(ndb.OR(Room.status=="available",Room.name==user.email()))
                list1=[]
                list2=[]
                for q1 in q:
-                   stat={"number":q1.number,"status":q1.status}
-                   list1.append(stat)
-               q=Room.query(Room.status=="available")
-               for q1 in q:
-                   stat={"number":q1.number,"status":q1.status}
-                   list2.append(stat)
+                   if q1.name==user.email():
+                       stat={"number":q1.number,"status":q1.status}
+                       list1.append(stat)
+                   else:
+                       stat={"number":q1.number,"status":q1.status}
+                       list2.append(stat)
+               logging.error(q)
                list3={"bookedrooms":list1,"availablerooms":list2}
                ss=json.dumps(list3)
                self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
@@ -224,7 +226,7 @@ class cancelbookedroom(webapp2.RequestHandler):
            n=vals['rooms']
            n1=n.split(",")
            for n2 in n1:
-               q1=Room.query(Room.number==n2).get()
+               q1=Room.query(Room.number==int(n2)).get()
                q1.status="available"
                q1.name=""
                q1.put()
@@ -244,11 +246,12 @@ class bookrooms(webapp2.RequestHandler):
            n1=n.split(",")
            list1=[]
            for n2 in n1:
-               q1=Room.query(Room.number==n2).get()
+               q1=Room.query(Room.number==int(n2)).get()
                if q1 is not None:
                    list1.append(n2)
-               q1.name=user.email()
-               q1.status="booked"
+                   q1.name=user.email()
+                   q1.status="booked"
+                   q1.put()
            obj = {u"message":"success",u"unsuccessful":list1}
            ss=json.dumps(obj)
            self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
@@ -272,6 +275,8 @@ app = webapp2.WSGIApplication([
     ('/logout',logout),
     ('/addroom',addroom),
     ('/getroomstatus',getpersonroomstatus),
+    ('/bookroom',bookrooms),
     ('/test',testtemplate),
+    ('/cancelrooms',cancelbookedroom),
     ('/removeroom',removerooms)
 ], debug=True)

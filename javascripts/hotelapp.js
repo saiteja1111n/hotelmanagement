@@ -35,25 +35,25 @@ function removerooms() {
     }
 
 }
-function addaroom(){
-      /*  var nelement1=document.createElement("INPUT");
-        nelement1.setAttribute("type","text");
-        nelement1.setAttribute("id","roomno");
-        nelement1.setAttribute("placeholder","roomno");
-        var s= document.getElementById("rooms");
-        var nelement2=document.createElement("INPUT");
-        nelement2.setAttribute("type","text");
-        nelement2.setAttribute("id","roomno");
-        nelement2.setAttribute("placeholder","room details");
-        var s= document.getElementById("rooms");
-        s.appendChild(nelement1);
-        s.appendChild(nelement2);
-        var nelement3=document.createElement("BUTTON");
-        nelement3.setAttribute("value","Add room");
-        nelement3.setAttribute("onClick","addroom1()");
-        var s= document.getElementById("rooms");
-        s.appendChild(nelement3);*/
-        $('#rooms').append('<br>    <input id="roomno" type="text" placeholder="Room Number"><br><br><input id="roomdetails" placeholder="Room Detals" type="text"><br><br><button height="50px" width="50px" onClick="addroom1()" value="Add">');
+function getaroom(){
+    var p=document.getElementById("roomno").value;
+    console.log(p);
+    if( p.length==0){
+        alert("you didnt submit any number to cancel");
+    } else{
+        var objectData =
+        {
+            rooms: document.getElementById("roomno").value,
+        };
+        var data = JSON.stringify(objectData);
+        $.post("/bookroom",data)
+        .done(function(data){
+            console.log("Success:" + data);
+        });
+        console.log("before room status");
+        window.location="/login";
+    }
+
 }
 function login() {
    window.location="/login";
@@ -65,7 +65,7 @@ function roomstatus() {
     var data1="";
     $.post("/getroomstatus")
     .done(function(data){
-        console.log("succesfully updated");
+        console.log(data);
         data1=JSON.parse(data);
         var s="<h1>Available Rooms</h1>";
         //console.log(data1);
@@ -80,6 +80,27 @@ function roomstatus() {
         }
         document.getElementById("booked").innerHTML=s;
     });
+
+}
+
+function cancelrooms(){
+    var p=document.getElementById("roomno1").value;
+    console.log(p);
+    if( p.length==0){
+        alert("you didnt submit any number to cancel");
+    } else{
+        var objectData =
+        {
+            rooms: document.getElementById("roomno1").value,
+        };
+        var data = JSON.stringify(objectData);
+        $.post("/cancelrooms",data)
+        .done(function(data){
+            console.log("Success:" + data);
+        });
+        console.log("before room status");
+        window.location="/login";
+    }
 
 }
 

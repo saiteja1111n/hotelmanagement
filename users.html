@@ -8,7 +8,7 @@
 
 	<link rel="stylesheet" href="/styles/style.css" type="text/css" />
 	</head>
-	<body>
+	<body onload="roomstatus()">
 
 	 <div id="topheader">
 
@@ -39,17 +39,17 @@
 					<br>
 
 					<div class="addrooms">
-						   <p style="color:#990000" ><br>Number of Rooms to be added:&nbsp;&nbsp;&nbsp;
+						   <p style="color:#990000" ><br>Number of Rooms to be booked:&nbsp;&nbsp;&nbsp;
 								<input  class="getvalues" id="roomno" type="text" name="noOfRooms" />
 								&nbsp;&nbsp;&nbsp;&nbsp;
-							   <input   style="padding-top:10px" id="button"  onclick="addrooms()" type="submit" name="addrooms" value="Add"  align="middle" />
+							   <input   style="padding-top:10px" id="button"  onclick="getaroom()" type="submit" name="addrooms" value="Add"  align="middle" />
 						   </p>
 					 </div>
 					 	<div class="addrooms">
-						   <p style="color:#990000" ><br>Remove Rooms:&nbsp;&nbsp;&nbsp;
+						   <p style="color:#990000" ><br>Cancle Rooms:&nbsp;&nbsp;&nbsp;
 								<input  class="getvalues" id="roomno1" type="text" name="noOfRooms" />
 								&nbsp;&nbsp;&nbsp;&nbsp;
-							   <input   style="padding-top:10px" id="button"  onclick="removerooms()" type="submit" name="addrooms" value="Remove"  align="middle" /><br>
+							   <input   style="padding-top:10px" id="button1"  onclick="cancelrooms()" type="submit" name="addrooms" value="Cancel"  align="middle" /><br>
                                (rm1,rm2,rm3 for multiple room)
 						   </p>
 					 </div>
