@@ -9,8 +9,31 @@ function addrooms(){
     var data = JSON.stringify(objectData);
     $.post("/addroom",data)
     .done(function(data){
-		console.log("Success:" + data);
+		//console.log("Success:" + data);
 	});
+	console.log("before room status");
+	window.location="/login";
+}
+
+function removerooms() {
+    var p=document.getElementById("roomno1").value;
+    console.log(p);
+    if( p.length==0){
+        alert("you didnt submit any number to cancel");
+    } else{
+        var objectData =
+        {
+            rooms: document.getElementById("roomno1").value,
+        };
+        var data = JSON.stringify(objectData);
+        $.post("/removeroom",data)
+        .done(function(data){
+            console.log("Success:" + data);
+        });
+        console.log("before room status");
+        window.location="/login";
+    }
+
 }
 function addaroom(){
       /*  var nelement1=document.createElement("INPUT");
@@ -42,13 +65,22 @@ function roomstatus() {
     var data1="";
     $.post("/getroomstatus")
     .done(function(data){
-        console.log(data)
+        console.log("succesfully updated");
         data1=JSON.parse(data);
-    });
-    var s="<h1>Available Rooms</h1>";
-    for(var i=0,i<data1.length;i++) {
+        var s="<h1>Available Rooms</h1>";
+        //console.log(data1);
+        for(var i=0;i < data1.availablerooms.length;i++) {
+            s=s+"<h5>"+data1.availablerooms[i].number+"</h5>";
+        }
+        document.getElementById("available").innerHTML=s;
+        s="<h1>booked rooms</h1>"
 
-    }
+        for(var i=0;i < data1.bookedrooms.length;i++) {
+            s=s+"<h5>"+data1.bookedrooms[i].number+"</h5>";
+        }
+        document.getElementById("booked").innerHTML=s;
+    });
+
 }
 
 function getname(){

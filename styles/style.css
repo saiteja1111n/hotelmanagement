@@ -67,7 +67,7 @@ padding-left:20px;
 }
 
 .login-block-admin {
-    width: 600px;
+    width: 50%;
     padding: 20px;
 	opacity:0.9;
 	   color: #990000;
@@ -107,7 +107,7 @@ h1
 background-color:#FFFFFF;
  height:320px;
  border:thin;
- width:250px;
+ width:40%;
     padding-left:30px;
     border:1px solid red;
     margin-right:10px;
@@ -127,6 +127,7 @@ color:#333333;
  
  background-color:#000000;
 border:thick;
+width:70%;
   
 
 }
@@ -172,7 +173,7 @@ text-align:center;
 padding-left:1100px;
 }
 
-#button
+#button,#button1
 {
 opacity:0.9;
    font-family: Georgia;
@@ -184,7 +185,7 @@ opacity:0.9;
 		   
 }
 
-#button:hover
+#button:hover,#button:hover
 {
   color: #990000;
   opacity:0.9;
@@ -241,4 +242,13 @@ opacity:0.9;
 
   background-image: linear-gradient(to bottom, #ffffff, #e8767c);
   text-decoration: none;
+}
+.available{
+    height:100%;
+    overflow-y: auto;
+}
+
+.booked{
+    height:100%;
+    overflow-y: auto;
 }

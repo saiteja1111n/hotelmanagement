@@ -66,10 +66,10 @@ class MainHandler(webapp2.RequestHandler):
                 self.response.write(template.render())
             else:
                 if q1.type == 'admin':
-                    template=JINJA_ENVIRONMENT.get_template('adminhome.html')
+                    template=JINJA_ENVIRONMENT.get_template('adminpage.html')
                     self.response.write(template.render())
                 else:
-                    template=JINJA_ENVIRONMENT.get_template('home.html')
+                    template=JINJA_ENVIRONMENT.get_template('users.html')
                     self.response.write(template.render())
         else:
             self.redirect(users.create_login_url(self.request.uri))
@@ -80,21 +80,28 @@ class userProfile(webapp2.RequestHandler):
             user=users.get_current_user()
             if user:
                 q1=Person.query(Person.mailId != None).count()
+                q2=Person.query(Person.mailId == user.email()).get()
                 template=None
-                if q1 is not 0:
-                    Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="client").put()
-                    template=JINJA_ENVIRONMENT.get_template('home.html')
+                if q2 is None:
+                    if q1 is not 0:
+                        Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="client").put()
+                        template=JINJA_ENVIRONMENT.get_template('users.html')
+                    else:
+                       Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="admin").put()
+                       template=JINJA_ENVIRONMENT.get_template('adminpage.html')
+                       for i in range(1,6):
+                           Room(number=i,status="Available").put()
+                    self.response.write(template.render())
                 else:
-                   Person(name=self.request.get('name'),mailId=user.email(),phno=self.request.get('phno'),address=self.request.get('address'),type="admin").put()
-                   template=JINJA_ENVIRONMENT.get_template('adminhome.html')
-                   for i in range(1,6):
-                       Room(number=i,status="Available").put()
-                self.response.write(template.render())
+                    if q2.type=="admin":
+                        template=JINJA_ENVIRONMENT.get_template('adminpage.html')
+                    else:
+                        template=JINJA_ENVIRONMENT.get_template('users.html')
+                    self.response.write(template.render())
             else:
                 self.redirect(users.create_login_url(self.request.uri))
         except Exception,e:
             traceback.print_exc()
-            logging.error("error occured.."+str(e))
             self.response.write("Record not saved")
 
 class getname(webapp2.RequestHandler):
@@ -102,7 +109,6 @@ class getname(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
             q=Person.query(Person.mailId == user.email()).get()
-            logging.error(q)
             obj = {u"name":q.name}
             ss=json.dumps(obj)
             self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
@@ -115,17 +121,15 @@ class homepage(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
             q=Person.query(Person.mailId==user.email()).get()
-            logging.error(q)
-            logging.error("this is client homepage")
             if q is None:
                 template=JINJA_ENVIRONMENT.get_template('createprofile.html')
                 self.response.write(template.render())
             else:
                 if q.type == 'admin':
-                    template=JINJA_ENVIRONMENT.get_template('adminhome.html')
+                    template=JINJA_ENVIRONMENT.get_template('adminpage.html')
                     self.response.write(template.render())
                 else:
-                    template=JINJA_ENVIRONMENT.get_template('home.html')
+                    template=JINJA_ENVIRONMENT.get_template('users.html')
                     self.response.write(template.render())
         else:
             self.redirect(users.create_login_url(self.requesuri))
@@ -157,8 +161,6 @@ class getpersonroomstatus(webapp2.RequestHandler):
         user=users.get_current_user()
         if user:
            query1=Person.query(Person.mailId==user.email()).get()
-           logging.error(query1)
-           logging.error(query1.type)
            if query1.type == "admin":
                q=Room.query(Room.number!=None)
                list1 = []
@@ -184,10 +186,10 @@ class getpersonroomstatus(webapp2.RequestHandler):
                for q1 in q:
                    stat={"number":q1.number,"status":q1.status}
                    list2.append(stat)
-           list3={"bookedrooms":list1,"availablerooms":list2}
-           ss=json.dumps(list3)
-           self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
-           self.response.write(ss)
+               list3={"bookedrooms":list1,"availablerooms":list2}
+               ss=json.dumps(list3)
+               self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+               self.response.write(ss)
         else:
             self.redirect(users.create_login_url(self.requesuri))
 
@@ -200,9 +202,10 @@ class removerooms(webapp2.RequestHandler):
            n1=n.split(",")
            list1=[]
            for n2 in n1:
-               q1=Room.query(Room.number==n2).get()
+               q1=Room.query(Room.number==int(n2)).get()
                if q1 is not None:
-                   q1.delete()
+                   q1.key.delete()
+                   logging.error("deleted")
                else:
                    list1.append(n2)
            obj = {u"message":"success",u"unsuccessfull":list1}
@@ -256,7 +259,7 @@ class bookrooms(webapp2.RequestHandler):
 
 class testtemplate(webapp2.RequestHandler):
     def get(self):
-        template=JINJA_ENVIRONMENT.get_template('index.html')
+        template=JINJA_ENVIRONMENT.get_template('users.html')
         self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
@@ -269,5 +272,6 @@ app = webapp2.WSGIApplication([
     ('/logout',logout),
     ('/addroom',addroom),
     ('/getroomstatus',getpersonroomstatus),
-    ('/test',testtemplate)
+    ('/test',testtemplate),
+    ('/removeroom',removerooms)
 ], debug=True)
