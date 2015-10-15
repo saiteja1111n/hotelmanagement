@@ -148,7 +148,7 @@ class addroom(webapp2.RequestHandler):
             n=int(vals['numberofrooms'])
             q1=Room.query(Room.number!=None).count()
             for i in range(0,n):
-                Room(number=i+q1+1,status="Available").put()
+                Room(number=i+q1+1,status="available").put()
             obj = {u"meassage":"success"}
             ss=json.dumps(obj)
             self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
