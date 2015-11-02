@@ -19,7 +19,7 @@ handlers:
   static_dir: icons
 
 - url: .*
-  script: main.app
+  script: hotelapp.app
 
 
 libraries:
