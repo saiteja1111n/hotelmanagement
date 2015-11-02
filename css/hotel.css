@@ -9,7 +9,10 @@ body {
     background-size: cover;
     -o-background-size: cover;
 }
-
+#roomSelect
+{
+ display:none;
+}
 h1,
 h2,
 h3,

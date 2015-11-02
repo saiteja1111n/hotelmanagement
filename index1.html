@@ -13,7 +13,9 @@
 
    
     <link href="css/hotel.css" rel="stylesheet">
-	 
+
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+
 	<link href='https://fonts.googleapis.com/css?family=Crimson+Text:400italic,400' rel='stylesheet' type='text/css'>
 
 </head>
@@ -33,6 +35,7 @@
       </div>
       <div class="modal-body"id="model1">
         <!-- Single button -->
+          <div id="selectType" class="form-group">
         <div class="form-group">
           <label for="sel1">Select room type:</label>
           <select class="form-control" id="sel1">
@@ -42,6 +45,8 @@
             <option value="0">Dormitary</option>
           </select>
         </div>
+
+
         <br>
           <label for="startdate">From:</label>
           <input type="date" id="startdate" value="2014-02-09" min="">
@@ -51,6 +56,21 @@
         <!-- Single button -->
 
       </div>
+
+</div>
+
+         <div class="form-group" id="roomSelect" >
+          <label for="sel1">Select room type:</label>
+           <select class="selectpicker" multiple>
+              <option>Room 1</option>
+              <option>Room 2 </option>
+              <option>Roon 3</option>
+              <option>Roon 4</option>
+
+          </select>
+        </div>
+
+
       <div class="modal-footer">
         <div class="form-group col-lg-12">
                 <button type="submit" class="btn btn-default" id="model1btn" onclick="check()"> Check Availability</button>
@@ -89,7 +109,7 @@
                         <a href="contact.html">Contact</a>
                     </li>
                     <li>
-                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                        <button type="button" onclick="get_Room()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                             Get A Room
                         </button>
                     </li>
@@ -299,13 +319,15 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
+    <script src="js/bootstrap-select.min.js"></script>
+t
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <!-- Script to Activate the Carousel -->
     
         
     
     <script>
-	    
+
 	    $('.carousel').carousel({
 	        interval: 2000 //changes the speed
 	    })
@@ -331,13 +353,15 @@
 	    	}
 	    	else
 	    		window.alert(" Error!!! Please check the details");*/
-	    		var s='<select id="example-getting-started" multiple="multiple">';
-    s=s+'<option value="cheese">Cheese</option>';
-     s=s+'<option value="cheese">Cheese</option>';
-      s=s+'<option value="cheese">Cheese</option>';
-      s=s+'</select>';
-            document.getElementById("model1").innerHTML=s;
-            document.getElementById("model1btn").value="Book Rooms";
+
+
+                var divbar2=document.getElementById("selectType");
+                divbar2.style.display='none';
+
+
+                var divbar11=document.getElementById("roomSelect");
+                divbar11.style.display='block';
+
 	    	
 	    	
 	    }
@@ -369,9 +393,18 @@
     		divbar.style.display='block';	 
 	 	}
 
-	 	$(document).ready(function() {
-            $('#example-getting-started').multiselect();
-        });
+
+        function get_Room()
+        {
+
+                        var divbar=document.getElementById("selectType");
+                        divbar.style.display='block';
+
+
+                        var divbar1=document.getElementById("roomSelect");
+                        divbar1.style.display='none';
+
+        }
     </script>
     
     
