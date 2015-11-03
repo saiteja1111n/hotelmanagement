@@ -38,19 +38,32 @@
           <div id="selectType" class="form-group">
         <div class="form-group">
           <label for="sel1">Select room type:</label>
-          <select class="form-control" id="sel1">
-            <option value="1">Single Room</option>
-            <option value="2">Double Room</option>
-            <option value="3">Triple Room</option>
-            <option value="0">Dormitary</option>
-          </select>
+
+               <select class="selectpicker" multiple >
+                <optgroup label="Single rooms" multiple>
+                  <option>Room1</option>
+                  <option>Room2</option>
+                  <option>Room3</option>
+                  <option>Room4</option>
+                  <option>Room5</option>
+
+                </optgroup>
+                <optgroup label="Double" multiple>
+                  <option>Room6</option>
+                  <option>Room7</option>
+                  <option>Room8</option>
+                  <option>Room9</option>
+                  <option>Room10</option>
+                </optgroup>
+
+              </select>
         </div>
 
 
         <br>
           <label for="startdate">From:</label>
           <input type="date" id="startdate" value="2014-02-09" min="">
-          <label for="enddate">Till:</label>
+          <label for="enddate" >&nbsp;&nbsp;Till:</label>
           <input type="date" id="enddate" value="2014-02-09" ><br>
       </div><div class="modal-body"id="model2">
         <!-- Single button -->
@@ -58,18 +71,6 @@
       </div>
 
 </div>
-
-         <div class="form-group" id="roomSelect" >
-          <label for="sel1"> Select the rooms: </label>
-           <select class="selectpicker" multiple id="Rooms_List">
-              <option>Room 1</option>
-              <option>Room 2 </option>
-              <option>Roon 3</option>
-              <option>Roon 4</option>
-
-          </select>
-        </div>
-
 
         <div class="box" id="personal_details">
                     <div class="form-group col-lg-2">
@@ -99,8 +100,8 @@
 
       <div class="modal-footer">
         <div class="form-group col-lg-12">
-                <button type="submit" class="btn btn-default" id="model1btn" onclick="check()">Check Availability</button>
-                 <button type="submit" class="btn btn-default" id="proceed" onclick="proceed()">Proceed</button>
+                <button type="submit" class="btn btn-default" id="proceed" onclick="proceed()">Proceed</button>
+
              <button  type="submit" class="btn btn-default" id="confirm" onclick="ConfirmationDone()" >Confirm Reservation</button>
         </div>
 
@@ -222,7 +223,7 @@
                 </div>
             </div>
         </div>
-		
+<!--
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -289,7 +290,7 @@
     </div>
     <!-- /.container -->
 
-
+<!--
  <div class="container">
 	    <div id="keepHidden1"> 
 	      <div class="row">
@@ -338,11 +339,9 @@
 		          		<div id="payment_Status_failure"> <p>Sorry for the inconvinience! The room cannot be reserved </p> </div>       
 		         </div>
 	         </div>
-	    </div>
+	    </div>   .container -->
     </div>
-    <!-- /.container -->
-    
-    
+
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -353,30 +352,30 @@
 t
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <!-- Script to Activate the Carousel -->
-    
-        
+
+
     
     <script>
 
-	    $('.carousel').carousel({
+	      $('.carousel').carousel({
 	        interval: 2000 //changes the speed
 	    })
 	    
 	 	function check()
-	    { 
+	    {
 	    	/*var no_room=document.getElementById("noRooms").value;
 	    	  document.getElementById('confirm').style.visibility = 'hidden';
 	    	var no_adults=document.getElementById("noAdults").value;
 	    	var no_child=document.getElementById("noChild").value;
 	    	var From_Date=document.getElementById("fromDate").value;
 	    	var To_Date=document.getElementById("toDate").value;
-	    	 
-	    	 
+
+
 	    	if( no_room>=1 && no_adults>=0 && no_child>=0 && From_Date.length>1 &&To_Date.length>1 )
 	    	{
 	    		var divbar=document.getElementById(id);
-	    		divbar.style.display='block';	 
-	    		
+	    		divbar.style.display='block';
+
 	    		 $('html,body').animate({
 			            scrollTop: $("#keepHidden").offset().top},
 			            'slow');
@@ -400,9 +399,14 @@ t
                 var divbar11=document.getElementById("roomSelect");
                 divbar11.style.display='block';
 
-	    	
-	    	
+
+
 	    }
+
+
+
+
+
 	    function makeVisible(id)
 	    {
 	    	var divbar=document.getElementById(id);
@@ -424,7 +428,7 @@ t
 	 		  $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
 	 		  
 	 		});
-	 
+
 	  	function PaymentDone()
 	 	{
 			var divbar=document.getElementById("payment_Status_success");
@@ -436,17 +440,17 @@ t
         {
 
                         $('.modal-title').text('Room Availability');
-                        document.getElementById('proceed').style.visibility = 'hidden';
+
+
                         document.getElementById('confirm').style.visibility = 'hidden';
-                        document.getElementById('model1btn').style.visibility = 'visible';
-                        var divbar=document.getElementById("selectType");
-                        divbar.style.display='block';
+                        document.getElementById('proceed').style.visibility = 'visible';
+
+                        var divbar1=document.getElementById("model1");
+                        divbar1.style.display='block';
 
                         var divbar1=document.getElementById("ConfirmationPage");
                         divbar1.style.display='none';
 
-                        var divbar1=document.getElementById("roomSelect");
-                        divbar1.style.display='none';
 
                         var divbar21=document.getElementById("personal_details");
                         divbar21.style.display='none';
@@ -457,12 +461,18 @@ t
 
         function proceed()
         {
-                    console.log(document.getElementById("Rooms_List").value.length);
-                    var a=document.getElementById("Rooms_List").value;
-                    for(i=0;i<a.length;i++)
-                     console.log(a[i]);
-                        var divbar1=document.getElementById("roomSelect");
-                        divbar1.style.display='none';
+
+               var countries = [];
+                    $.each($(".selectpicker option:selected"), function()
+                    {
+                        countries.push($(this).val());
+                    });
+                alert("You have selected the country - " + countries.join(", "));
+                console.log("You have selected the country - " + countries.join(", "));
+
+                        var divbar12=document.getElementById("model1");
+                        divbar12.style.display='none';
+
                         var divbar1=document.getElementById("ConfirmationPage");
                         divbar1.style.display='none';
 
@@ -478,18 +488,22 @@ t
         function ConfirmationDone()
         {
                         $('.modal-title').text('Room Booked');
+
                         document.getElementById('confirm').style.visibility = 'hidden';
-                        var divbar1=document.getElementById("roomSelect");
-                        divbar1.style.display='none';
+
+                         var divbar1=document.getElementById("ConfirmationPage");
+                        divbar1.style.display='block';
+
+
+                        var divbar=document.getElementById("model1");
+                        divbar.style.display='none';
 
                         var divbar21=document.getElementById("personal_details");
                         divbar21.style.display='none';
-                        var divbar1=document.getElementById("ConfirmationPage");
-                        divbar1.style.display='block';
+
 
         }
     </script>
-
 
 
 </body>
