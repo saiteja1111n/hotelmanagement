@@ -1163,7 +1163,15 @@ div[data-role="editor-toolbar"] {
   border-right-color: #ccc!important;
   border-bottom-color: #ccc!important;
   border-left-color: #ccc!important;
+
+
 }
+#singleroomform,#ToConfirm,#ConfirmedRooms,#status
+{
+
+ display: none;
+}
+
 .panel .panel-body.no-padding {
   padding: 0;
 }
