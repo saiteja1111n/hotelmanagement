@@ -8,7 +8,7 @@
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
     <link rel="shortcut icon" href="img/favicon.png">
 
-    <title>Creative - Bootstrap Admin Template</title>
+    <title>Admin Page</title>
 
     <!-- Bootstrap CSS -->    
     <link href="css/bootstrap1.min.css" rel="stylesheet">
@@ -43,10 +43,10 @@
 
   <body>
   <!-- container section start -->
-  <section id="container" class="">
+        <section id="container" class="">
      
       
-      <header class="header dark-bg">
+        <header class="header dark-bg">
             <div class="toggle-nav">
                 <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
             </div>
@@ -55,7 +55,7 @@
             <a href="index.html" class="logo">Admin <span class="lite">Home</span></a>
             <!--logo end-->
 
-            <div class="top-nav notification-row">                
+            <div class="top-nav notification-row">
                 <!-- notificatoin dropdown start-->
                 <ul class="nav pull-right top-menu">
 
@@ -150,7 +150,7 @@
                 </ul>
                 <!-- notificatoin dropdown end-->
             </div>
-      </header>      
+      </header>
       <!--header end-->
 
       <!--sidebar start-->
@@ -174,15 +174,17 @@
                           <li><a class="" onclick="roomalloc(1)">Single Room</a></li>
                           <li><a class="" onclick="roomalloc(2)">Double Room</a></li>
                           <li><a class="" onclick="roomalloc(3)">Triple Room</a></li>
+
+
                       </ul>
                   </li>
-                  <li>                     
+                  <li>
                       <a class="" href="chart-chartjs.html">
                           <i class="icon_piechart"></i>
                           <span>Chatting</span>
-                          
+
                       </a>
-                                         
+
                   </li>
 
               </ul>
@@ -200,14 +202,14 @@
 			</div>
               
             <div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="ToBeConformed">
 					<div class="info-box red-bg">
 						<div class="count">8</div>
 						<div class="title">Rooms To Be Conformed</div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="Confirmed">
 					<div class="info-box green-bg">
 						<div class="count">8</div>
 						<div class="title">Conformed Rooms Ahead of Present Day</div>
@@ -232,7 +234,11 @@
                             <div id="dataheader" class="panel-heading">
 
                             </div>
+
                             <div id="databody" class="panel-body-map">
+                                <div id ="status">
+                                    <p>Room is added</p>
+                                </div>
                                <div id="singleroomform">
                                        <form class="bx">
                                             <div class="form-group col-lg-3">
@@ -248,16 +254,61 @@
                                                 <label>AC/Non AC</label>
                                                 <input type="tel" id="noChild" class="form-control">
                                             </div>
-
+                                           <br>
+                                           <button type="submit" class="btn"   onclick="proceed()">Proceed</button>
 
                                        </form>
                                </div>
+
+
+                                <div id="ToConfirm">
+                                    <ul>
+                                          <li>
+                                                <div class="from"><h3> Room Number</h3></div>
+                                                <div class="sub"> <h3>Room To be booked by</h3></div>
+                                                <div class="sub"><h3> Comfirmation </h3></div>
+                                          </li>
+
+                                            <li>
+                                                <div class="from"><h3 class="txt"> Room 1</h3></div>
+                                                <div class="desc"> <h3 class="txt"> Sudha</h3></div>
+                                                <div class="sub"> <button class="conformBook" onclick="bookRoom()">Book the room</button> </div>
+                                          </li>
+
+
+
+                                    </ul>
+                                </div>
+
+                                <div id="ConfirmedRooms">
+
+                                     <ul>
+                                          <li>
+                                                <div class="from"><h3> Room Number</h3></div>
+                                                <div class="sub"> <h3>Room booked By </h3></div>
+                                                <div class="sub"><h3> Change status</h3></div>
+                                          </li>
+
+                                            <li>
+                                                <div class="from"><h3 class="txt"> Room 1</h3></div>
+                                                <div class="desc"> <h3 class="txt"> Sudha</h3></div>
+                                                <div class="sub"> <button class="conformBook" onclick="bookRoom()">Cancel</button> </div>
+                                          </li>
+
+
+
+                                    </ul>
+                                <div>
+
+
                             </div>
 	                    </div>
 					</div>
-				</div>
+
+
+
               <div class="col-md-3">
-              <!-- List starts -->
+               <!-- List starts -->
                   <div class="social-box facebook">
 						<i class="fa fa-facebook"></i>
 						<ul>
@@ -270,7 +321,9 @@
 								<span>feeds</span>
 							</li>
 						</ul>
-					</div><!--/social-box-->
+					</div>
+
+                  <!--/social-box-->
                   <div class="social-box twitter">
 						<i class="fa fa-twitter"></i>
 						<ul>
@@ -299,28 +352,28 @@
 					</div><!--/social-box-->
 
               </div>
-              
-			 
-           </div>  
+              </div>
+
+           </div>
             
 		  
 		  <!-- Today status end -->
-			
-              
-				
-			<div class="row">
-               	
-				<div class="col-lg-9 col-md-12">	
 
-	
-					</div>	
+
+
+			<div class="row">
+
+				<div class="col-lg-9 col-md-12">
+
+
+					</div>
 
 				</div><!--/col-->
-                   
+
                 <!-- statics end -->
 
-
-          </section>
+</div>
+          </div></section>
       </section>
       <!--main content end-->
   </section>
@@ -388,6 +441,40 @@
           });
       });
 
+    $("#ToBeConformed").click(function ()
+    {
+
+        document.getElementById("dataheader").innerHTML="Rooms to be Confirmed Details";
+        var x=document.getElementById("singleroomform");
+
+            x.style.display = 'none';
+
+        var x=document.getElementById("ToConfirm");
+
+            x.style.display= 'block';
+
+            var x=document.getElementById("ConfirmedRooms");
+
+            x.style.display= 'none';
+    });
+
+
+ $("#Confirmed").click(function ()
+    {
+        document.getElementById("dataheader").innerHTML="Confirmed Rooms Details";
+        var x=document.getElementById("singleroomform");
+            x.style.display = 'none';
+
+             var x=document.getElementById("ToConfirm");
+
+            x.style.display= 'none';
+
+             var x=document.getElementById("ConfirmedRooms");
+
+            x.style.display= 'block';
+    });
+
+
       //custom select box
 
       $(function(){
@@ -412,18 +499,44 @@
 	  });
 	});
 
-	function roomalloc(s) {
-	    if(s==1){
-	        document.getElementById("dataheader").innerHTML="Single Room Allocation";
-        }
-	    if(s==2) {
-	         document.getElementById("dataheader").innerHTML="Double Room Allocation";
-	    }
 
-	    if(s==3) {
-	         document.getElementById("dataheader").innerHTML="Triple Room Allocation";
-	    }
+
+
+	    function roomalloc(s)
+	    {
+
+
+
+	         var x=document.getElementById("singleroomform");
+            x.style.display = 'block';
+
+            if(s==1){
+                document.getElementById("dataheader").innerHTML="Single Room Allocation";
+            }
+            if(s==2) {
+                 document.getElementById("dataheader").innerHTML="Double Room Allocation";
+            }
+
+            if(s==3) {
+                 document.getElementById("dataheader").innerHTML="Triple Room Allocation";
+	     }
+	     var x=document.getElementById("ToConfirm");
+
+            x.style.display= 'none';
+
+             var x=document.getElementById("ConfirmedRooms");
+
+            x.style.display= 'none';
+
 	}
+
+	function proceed()
+    {
+        var x=document.getElementById("status");
+            x.style.display= 'block';
+         var node = document.getElementById('dataheader').innerHTML;
+         console.log("You have selected  " +node);
+    }
 
 
 

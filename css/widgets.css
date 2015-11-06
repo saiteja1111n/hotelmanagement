@@ -19,6 +19,33 @@
 	background:#fff;
 	border: 1px solid #ccc;
 }
+.btn {
+  background: #ffffff;
+  background-image: -webkit-linear-gradient(top, #ffffff, #e1e4e6);
+  background-image: -moz-linear-gradient(top, #ffffff, #e1e4e6);
+  background-image: -ms-linear-gradient(top, #ffffff, #e1e4e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e1e4e6);
+  background-image: linear-gradient(to bottom, #ffffff, #e1e4e6);
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #615e61;
+  font-size: 20px;
+  padding: 6px 26px 7px 20px;
+  border: solid #dfe6eb 2px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #dce1e3;
+  background-image: -webkit-linear-gradient(top, #dce1e3, #faf0fa);
+  background-image: -moz-linear-gradient(top, #dce1e3, #faf0fa);
+  background-image: -ms-linear-gradient(top, #dce1e3, #faf0fa);
+  background-image: -o-linear-gradient(top, #dce1e3, #faf0fa);
+  background-image: linear-gradient(to bottom, #dce1e3, #faf0fa);
+  text-decoration: none;
+}
 
 .chats .by-me .chat-meta{
 	font-size: 11px;
@@ -303,6 +330,31 @@
   border-top: 1px solid #ccc;
 }
 
+
+
+.from
+{
+	display: table-cell;
+    padding-right: 30px;
+	padding-left:20px;
+	padding:5px;
+}
+
+.sub
+{
+	  display: table-cell;
+
+      padding-left: 70px;
+
+
+}.desc
+{
+display: table-cell;
+   padding-right: 80px;
+      padding-left: 230px;
+
+
+}
 .project li:first-child{
 	border-top: 0px;
 }
