@@ -31,22 +31,20 @@
   border-radius: 0px;
   font-family: Arial;
   color: #615e61;
-  font-size: 20px;
-  padding: 6px 26px 7px 20px;
+   font-size: 16px;
+  padding: 3px 26px 3px 20px;
   border: solid #dfe6eb 2px;
   text-decoration: none;
 }
-
 .btn:hover {
   background: #dce1e3;
-  background-image: -webkit-linear-gradient(top, #dce1e3, #faf0fa);
-  background-image: -moz-linear-gradient(top, #dce1e3, #faf0fa);
-  background-image: -ms-linear-gradient(top, #dce1e3, #faf0fa);
-  background-image: -o-linear-gradient(top, #dce1e3, #faf0fa);
-  background-image: linear-gradient(to bottom, #dce1e3, #faf0fa);
+  background-image: -webkit-linear-gradient(top, #dce1e3, #ffffff);
+  background-image: -moz-linear-gradient(top, #dce1e3, #ffffff);
+  background-image: -ms-linear-gradient(top, #dce1e3, #ffffff);
+  background-image: -o-linear-gradient(top, #dce1e3, #ffffff);
+  background-image: linear-gradient(to bottom, #dce1e3, #ffffff);
   text-decoration: none;
 }
-
 .chats .by-me .chat-meta{
 	font-size: 11px;
 	color: #999;
