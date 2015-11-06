@@ -40,20 +40,14 @@
           <label for="sel1">Select room type:</label>
 
                <select class="selectpicker" multiple >
-                <optgroup label="Single rooms" multiple>
+                <optgroup id="available_single_rooms" label="Single rooms" multiple>
                   <option>Room1</option>
-                  <option>Room2</option>
-                  <option>Room3</option>
-                  <option>Room4</option>
-                  <option>Room5</option>
-
                 </optgroup>
-                <optgroup label="Double" multiple>
+                <optgroup id="available_double_rooms" label="Double rooms" multiple>
                   <option>Room6</option>
-                  <option>Room7</option>
-                  <option>Room8</option>
-                  <option>Room9</option>
-                  <option>Room10</option>
+                </optgroup>
+                <optgroup id="available_triple_rooms" label="Triple rooms" multiple>
+                  <option>Room1</option>
                 </optgroup>
 
               </select>
@@ -438,22 +432,34 @@ t
 
         function get_Room()
         {
+            var data1 = {};
+            $.post("/availablerooms")
+            .done(function(data){
+                //console.log(data);
+                data1 = JSON.parse(data);
+                console.log(data1);
+                var roomlistid = document.getElementById("available_single_rooms");
+                var s="";
+                console.log(data1);
+                for(var i=0;i<data1.single_rooms.length;i++) {
+                    s=s+'<option>'+data1.single_rooms[i].number+'  '+data1.single_rooms[i].acstatus+'   '+data1.single_rooms[i].cost+'</option>';
+                }
+                console.log(s);
+                document.getElementById("available_single_rooms").innerHTML=s;
+            });
+            $('.modal-title').text('Room Availability');
+            document.getElementById('confirm').style.visibility = 'hidden';
+            document.getElementById('proceed').style.visibility = 'visible';
 
-                        $('.modal-title').text('Room Availability');
+            var divbar1=document.getElementById("model1");
+            divbar1.style.display='block';
+
+            var divbar1=document.getElementById("ConfirmationPage");
+            divbar1.style.display='none';
 
 
-                        document.getElementById('confirm').style.visibility = 'hidden';
-                        document.getElementById('proceed').style.visibility = 'visible';
-
-                        var divbar1=document.getElementById("model1");
-                        divbar1.style.display='block';
-
-                        var divbar1=document.getElementById("ConfirmationPage");
-                        divbar1.style.display='none';
-
-
-                        var divbar21=document.getElementById("personal_details");
-                        divbar21.style.display='none';
+            var divbar21=document.getElementById("personal_details");
+            divbar21.style.display='none';
 
 
 

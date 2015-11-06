@@ -18,6 +18,21 @@ handlers:
 - url: /icons
   static_dir: icons
 
+- url: /css
+  static_dir: css
+
+- url: /assets
+  static_dir: assets
+
+- url: /js
+  static_dir: js
+
+- url: /fonts
+  static_dir: fonts
+
+- url: /img
+  static_dir: img
+
 - url: .*
   script: hotelapp.app
 
