@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="css/bootstrap-select.min.css">
 
 	<link href='https://fonts.googleapis.com/css?family=Crimson+Text:400italic,400' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+    <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
 
 </head>
 
@@ -39,18 +41,40 @@
         <div class="form-group">
           <label for="sel1">Select room type:</label>
 
-               <select class="selectpicker" multiple >
-                <optgroup id="available_single_rooms" label="Single rooms" multiple>
+               <!--<select id ="available_rooms" class="selectpicker" multiple >
+                <optgroup  label="Single rooms" multiple>
                   <option>Room1</option>
+                    <option>Room1</option>
+                    <option>Room1</option>
+                    <option>Room1</option>
                 </optgroup>
-                <optgroup id="available_double_rooms" label="Double rooms" multiple>
+                <optgroup  label="Double rooms" multiple>
                   <option>Room6</option>
+                    <option>Room1</option>
                 </optgroup>
-                <optgroup id="available_triple_rooms" label="Triple rooms" multiple>
+                <optgroup  label="Triple rooms" multiple>
                   <option>Room1</option>
                 </optgroup>
 
-              </select>
+              </select>-->
+            <div id="available_rooms" class="form-group">
+                <div class="available_room" >
+                    <label for="available_single_rooms">Single Rooms</label>
+                    <select id="available_single_rooms" multiple>
+                    </select>
+                </div>
+                <div class="available_room">
+                    <label for="available_double_rooms">Single Rooms</label>
+                    <select id="available_double_rooms" multiple>
+                    </select>
+                </div>
+               <div class="available_room">
+                    <label for="available_triple_rooms">Single Rooms</label>
+                    <select id="available_triple_rooms" multiple>
+                    </select>
+                </div>
+            </div>
+
         </div>
 
 
@@ -438,14 +462,26 @@ t
                 //console.log(data);
                 data1 = JSON.parse(data);
                 console.log(data1);
-                var roomlistid = document.getElementById("available_single_rooms");
                 var s="";
                 console.log(data1);
                 for(var i=0;i<data1.single_rooms.length;i++) {
                     s=s+'<option>'+data1.single_rooms[i].number+'  '+data1.single_rooms[i].acstatus+'   '+data1.single_rooms[i].cost+'</option>';
                 }
-                console.log(s);
                 document.getElementById("available_single_rooms").innerHTML=s;
+                s='';
+                roomlistid = document.getElementById("available_double_rooms");
+                for(var i=0;i<data1.double_rooms.length;i++) {
+                    s=s+'<option>'+data1.double_rooms[i].number+'  '+data1.double_rooms[i].acstatus+'   '+data1.double_rooms[i].cost+'</option>';
+                }
+                document.getElementById("available_double_rooms").innerHTML=s;
+                s='';
+                roomlistid = document.getElementById("available_triple_rooms");
+                for(var i=0;i<data1.triple_rooms.length;i++) {
+                    s=s+'<option>'+data1.triple_rooms[i].number+'  '+data1.triple_rooms[i].acstatus+'   '+data1.triple_rooms[i].cost+'</option>';
+                }
+                console.log(s);
+                document.getElementById("available_triple_rooms").innerHTML=s;
+                s='';
             });
             $('.modal-title').text('Room Availability');
             document.getElementById('confirm').style.visibility = 'hidden';
@@ -509,6 +545,10 @@ t
 
 
         }
+
+            $(document).ready(function() {
+                $('#example-getting-started').multiselect();
+            });
     </script>
 
 

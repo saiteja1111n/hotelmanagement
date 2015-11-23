@@ -220,3 +220,16 @@ footer p {
         clear: both;
     }
 }
+
+#available_rooms{
+    display:flex;
+    flex-float:column wrap;
+    flex-direction:row;
+    justify-content:space-around;
+}
+
+.available_room{
+    display:flex;
+    flex-float:row wrap;
+    flex-direction:column;
+}
