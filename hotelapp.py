@@ -21,6 +21,12 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
+class Person(ndb.Model):
+    roomsbooked = ndb.StringProperty(repeated=True)
+    mailId = ndb.StringProperty(indexed=True)
+    phno = ndb.StringProperty(indexed= False)
+    Name = ndb.StringProperty(indexed = False)
+
 class Room(ndb.Model):
     number = ndb.StringProperty(indexed =True)
     status = ndb.StringProperty(indexed = True)
@@ -28,15 +34,22 @@ class Room(ndb.Model):
     acstatus = ndb.BooleanProperty(indexed=True)
     cost = ndb.IntegerProperty(indexed=True)
 
-class Person(ndb.Model):
-    roomsbooked = ndb.StructuredProperty(Room,repeated=True)
-    mailId = ndb.StringProperty(indexed=True)
-    phno = ndb.StringProperty(indexed= False)
-    Name = ndb.StringProperty(indexed = False)
+class Admin(ndb.Model):
+    Name = ndb.StringProperty(indexed = True)
+    customerfeedback  = ndb.StringProperty(repeated = True)
+
+class Userfeedbacks(ndb.Model):
+    user = ndb.StructuredProperty(Person)
+    message = ndb.StringProperty(indexed = False)
+    status = ndb.StringProperty(indexed = True)
+    date = ndb.DateTimeProperty(auto_now_add=True)
+
+
 
 
 class indexPage(webapp2.RequestHandler):
     def get(self):
+        self.response.write("fdfsd")
         que1 = Room.query().count()
         if que1 == 0:
             for i in range(1,4):
@@ -66,8 +79,46 @@ class getavailableRooms(webapp2.RequestHandler):
         self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
         self.response.write(total_rooms)
 
+class confirmrequest(webapp2.RequestHandler):
+    def post(self):
+        vals = json.loads(cgi.escape(self.request.body))
+        room_numbers = vals['booked_rooms'].split(',')
+        room_list=[]
+        p=Person(Name=vals['person_name'],mailId=vals['person_email'],phno=vals['person_mobileno'],roomsbooked= [])
+        for s in room_numbers:
+            s = s.strip(' \t\n\r')
+            p.roomsbooked.append(s)
+            q1 = Room.query(Room.number==s).get()
+            if q1:
+                q1.status="awaiting"
+                q1.put()
+        p.put()
+        # Person(Name=vals['person_name'],mailId=vals['person_email'],phno=vals['person_mobileno'],roomsbooked= room_list).put()
+        message = {"message":"success"}
+        data = json.dumps(message)
+        self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+        self.response.write(data)
+
+class contactpage(webapp2.RequestHandler):
+    def get(self):
+        template=JINJA_ENVIRONMENT.get_template('contact.html')
+        self.response.write(template.render())
+
+
+class savefeedback(webapp2.RequestHandler):
+    def post(self):
+        vals = json.loads(cgi.escape(self.request.body))
+        f = Userfeedbacks(user=Person(Name=vals['name'], mailId=vals['email'], phno=vals['phone'], roomsbooked=[]), status="unread", message = vals['msg'])
+        f.put()
+        message = {"message":"success"}
+        data = json.dumps(message)
+        self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+        self.response.write(data)
 
 app = webapp2.WSGIApplication([
     ('/', indexPage),
-    ('/availablerooms', getavailableRooms)
+    ('/availablerooms', getavailableRooms),
+    ('/conformrequest', confirmrequest),
+    ('/contact',contactpage),
+    ('/feedback',savefeedback),
 ], debug=True)

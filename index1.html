@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +18,7 @@
 
 	<link href='https://fonts.googleapis.com/css?family=Crimson+Text:400italic,400' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="js/bootstrap-multiselect.js"></script>
+    <script type="text/javascript" src="js/userjs.js"></script>
     <link rel="stylesheet" href="css/bootstrap-multiselect.css" type="text/css"/>
 
 </head>
@@ -28,117 +29,87 @@
 
     <!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Rooms Availability</h4>
-      </div>
-      <div class="modal-body"id="model1">
-        <!-- Single button -->
-          <div id="selectType" class="form-group">
-        <div class="form-group">
-          <label for="sel1">Select room type:</label>
-
-               <!--<select id ="available_rooms" class="selectpicker" multiple >
-                <optgroup  label="Single rooms" multiple>
-                  <option>Room1</option>
-                    <option>Room1</option>
-                    <option>Room1</option>
-                    <option>Room1</option>
-                </optgroup>
-                <optgroup  label="Double rooms" multiple>
-                  <option>Room6</option>
-                    <option>Room1</option>
-                </optgroup>
-                <optgroup  label="Triple rooms" multiple>
-                  <option>Room1</option>
-                </optgroup>
-
-              </select>-->
-            <div id="available_rooms" class="form-group">
-                <div class="available_room" >
-                    <label for="available_single_rooms">Single Rooms</label>
-                    <select id="available_single_rooms" multiple>
-                    </select>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Rooms Availability</h4>
                 </div>
-                <div class="available_room">
-                    <label for="available_double_rooms">Single Rooms</label>
-                    <select id="available_double_rooms" multiple>
-                    </select>
+                <div class="modal-body"id="model1">
+    <!-- Single button -->
+                    <div id="selectType" class="form-group">
+                        <div class="form-group">
+                            <label for="available_room"><h4>Select room type:</h4><h6>(For multiple rooms ctrl-select)</h6></label>
+                            <div id="available_room" class="form-group">
+                                <div class="available_room" >
+                                    <label for="available_single_rooms">Single Rooms</label>
+                                    <select id="available_single_rooms" multiple></select>
+                                </div>
+                                <div class="available_room">
+                                    <label for="available_double_rooms">Double Rooms</label>
+                                    <select id="available_double_rooms" multiple></select>
+                                </div>
+                                <div class="available_room">
+                                    <label for="available_triple_rooms">Triple Rooms</label>
+                                    <select id="available_triple_rooms" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="startdate">From:</label>
+                        <input type="date" id="startdate" value="2014-02-09" min="">
+                        <label for="enddate" >&nbsp;&nbsp;Till:</label>
+                        <input type="date" id="enddate" value="2014-02-09" ><br>
+                    </div>
+                    <div class="modal-body"id="model2"></div>
                 </div>
-               <div class="available_room">
-                    <label for="available_triple_rooms">Single Rooms</label>
-                    <select id="available_triple_rooms" multiple>
-                    </select>
-                </div>
-            </div>
 
-        </div>
-
-
-        <br>
-          <label for="startdate">From:</label>
-          <input type="date" id="startdate" value="2014-02-09" min="">
-          <label for="enddate" >&nbsp;&nbsp;Till:</label>
-          <input type="date" id="enddate" value="2014-02-09" ><br>
-      </div><div class="modal-body"id="model2">
-        <!-- Single button -->
-
-      </div>
-
-</div>
-
-        <div class="box" id="personal_details">
+                <div class="box" id="personal_details">
+                    <div class="form-group col-lg-12">
+                        <label><h4>Selected Rooms</h4><h6 id="allrooms"></h6></label>
+                    </div>
                     <div class="form-group col-lg-2">
                         <label>Name</label>
-                        <input type="text"  id="noRooms" class="form-control">
+                        <input type="text"  id="person_name" class="form-control">
                     </div>
                     <div class="form-group col-lg-4">
                         <label>Email Id:</label>
-                        <input type="text" id="noAdults" class="form-control">
+                        <input type="text" id="person_email" class="form-control">
                     </div>
 
-                  <div class="form-group col-lg-3">
+                    <div class="form-group col-lg-3">
                         <label>Mobile number</label>
-                        <input type="tel" id="noChild" class="form-control">
+                        <input type="tel" id="person_mobileno" class="form-control">
                     </div>
+                </div>
+
+                <div class="box" id="ConfirmationPage">
+                    <h3>Details</h3>
+                    <p>Thankyou for your order We will get back to you soon through mail </p>
+                </div>
 
 
+                <div class="modal-footer">
+                    <div class="form-group col-lg-12">
+                        <button type="submit" class="btn btn-default" id="proceed" onclick="proceed()">Proceed</button>
+                        <button type="submit" class="btn btn-default" id="back" onclick="get_Room()">Back</button>
+                        <button  type="submit" class="btn btn-default" id="confirm" onclick="ConfirmationDone()" >Confirm Reservation</button>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="box" id="ConfirmationPage">
-                     <h3>Details</h3>
-            <p>Thankyou for your order We will get back to you soon through mail </p>
-
-
-        </div>
-
-
-      <div class="modal-footer">
-        <div class="form-group col-lg-12">
-                <button type="submit" class="btn btn-default" id="proceed" onclick="proceed()">Proceed</button>
-
-             <button  type="submit" class="btn btn-default" id="confirm" onclick="ConfirmationDone()" >Confirm Reservation</button>
-        </div>
-
-      </div>
     </div>
-  </div>
-</div>
     <nav class="navbar navbar-default" >
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
-            
-            
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
                 <a class="navbar-brand" href="index.html">Hotel Plaza</a>
@@ -149,26 +120,17 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="index1.html">Home</a>
+                        <a href=".">Home</a>
                     </li> 
                      <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="contact">Contact</a>
                     </li>
                      <li>
                         <a href="" onclick="get_Room()" data-toggle="modal" data-target="#myModal">Get A room</a>
                     </li>
-                    <!--<li>
-                        <button type="button" onclick="get_Room()" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                            Get A Room
-                        </button>
-                    </li>-->
                 </ul>
             </div>
-            <!-- /.navbar-collapse -->
-        
-        
         </div>
-        <!-- /.container -->
     </nav>
 
 
@@ -241,315 +203,14 @@
                 </div>
             </div>
         </div>
-<!--
-        <div class="row">
-            <div class="box">
-                <div class="col-lg-12">
-                    <hr>
-                    <h2 class="intro-text text-center">Book A Room</strong>
-                    </h2>
-                    <hr>
-                   
-                   
-                </div>
-               				<div class="form-group col-lg-2">
-                                <label>No Of rooms to book</label>
-                                <input type="text"  id="noRooms" class="form-control">
-                            </div>
-                            <div class="form-group col-lg-2">
-                                <label>No of adults</label>
-                                <input type="text" id="noAdults" class="form-control">
-                            </div>
-                            <div class="form-group col-lg-2">
-                                <label>No of childrens</label>
-                                <input type="tel" id="noChild" class="form-control">
-                            </div>
-                            <br>
-                            <div class="form-group col-lg-3">
-                                <label>From date( in format: DD-MM-YYYY)</label>
-                                <input type="tel" id="fromDate" class="form-control">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Till date( in format: DD-MM-YYYY</label>
-                                <input type="tel" id="toDate" class="form-control">
-                            </div>
-                            
-                             
-                            <div class="form-group col-lg-12">
-                           
-                                <button type="submit" class="btn btn-default" onclick="check()"> Check Availability</button>
-                            </div>
-            </div>
-        </div>
-
-
-
     </div>
-    
-    <div class="container">
-	    <div id="keepHidden"> 
-	      <div class="row">
-	            <div class="box">
-		            <hr>
-	                    <h2 class="intro-text text-center">Check Availabile Rooms</strong></h2>
-	                <hr>
-	             
-	                	 <p>Rooms are available as per your requirement</p>
-	                	    <div class="positionCenter">
-	                	 <h3>Room Specifications: </h3>
-	                	 <p>A big hall, 2 small bed rooms and a balcony </p>
-	                	 <p> Cost = 250 RS per day </p>
-	                	  <button type="submit" class="btn btn-default" onclick=makeVisible("keepHidden1")>Book The Room</button>
-		                </div>	
-		         </div>
-	        </div>
-	    </div>
-	    
-    </div>
-    <!-- /.container -->
-
-<!--
- <div class="container">
-	    <div id="keepHidden1"> 
-	      <div class="row">
-	            <div class="box">
-		            <hr>
-	                    <h2 class="intro-text text-center">Personal Information and Payment</strong></h2>
-	                <hr>
-	                
-	                	<div class="form-group col-lg-2">
-                                <label>Name</label>
-                                <input type="text"  id="noRooms" class="form-control">
-                            </div>
-                            <div class="form-group col-lg-2">
-                                <label>Email Id:</label>
-                                <input type="text" id="noAdults" class="form-control">
-                            </div>
-                            
-                            <div class="form-group col-lg-2">
-                                <label>ReType your Email Id:</label>
-                                <input type="text" id="noAdults" class="form-control">
-                            </div>
-                            
-                            <div class="form-group col-lg-2">
-                                <label>Mobile number</label>
-                                <input type="tel" id="noChild" class="form-control">
-                            </div>
-                             
-                            <div class="form-group col-lg-3">
-                                <label>Payment Through</label>
-                                <div class="dropdown">
-								    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Payment
-								    <span class="caret"></span></button>
-								    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-								      <li role="presentation"><a role="menuitem" tabindex="-1" >Credit card</a></li>
-								      <li role="presentation"><a role="menuitem" tabindex="-1" >Debit Card</a></li>
-								      <li role="presentation"><a role="menuitem" tabindex="-1" >American Express</a></li>
-								      <li role="presentation"><a role="menuitem" tabindex="-1" >PayPal</a></li>
-								      
-								     </ul>
-								 </div>
-								 
-                            </div>
-                       <button  type="submit" class="btn btn-default" onclick=PaymentDone()>Confirm Reservation</button>
-		          		<br><br>
-		          		<div id="payment_Status_success"> <p>Congratulations!!! Room has been reserved successfully.</p> </div>       
-		          		<div id="payment_Status_failure"> <p>Sorry for the inconvinience! The room cannot be reserved </p> </div>       
-		         </div>
-	         </div>
-	    </div>   .container -->
-    </div>
-
-
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-select.min.js"></script>
-t
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <!-- Script to Activate the Carousel -->
-
-
-    
-    <script>
-
-	      $('.carousel').carousel({
-	        interval: 2000 //changes the speed
-	    })
-
-	 	function check()
-	    {
-	    	/*var no_room=document.getElementById("noRooms").value;
-	    	  document.getElementById('confirm').style.visibility = 'hidden';
-	    	var no_adults=document.getElementById("noAdults").value;
-	    	var no_child=document.getElementById("noChild").value;
-	    	var From_Date=document.getElementById("fromDate").value;
-	    	var To_Date=document.getElementById("toDate").value;
-
-
-	    	if( no_room>=1 && no_adults>=0 && no_child>=0 && From_Date.length>1 &&To_Date.length>1 )
-	    	{
-	    		var divbar=document.getElementById(id);
-	    		divbar.style.display='block';
-
-	    		 $('html,body').animate({
-			            scrollTop: $("#keepHidden").offset().top},
-			            'slow');
-	    	}
-	    	else
-	    		window.alert(" Error!!! Please check the details");*/
-
-
-
-
-
-                document.getElementById('model1btn').style.visibility = 'hidden';
-                document.getElementById('proceed').style.visibility = 'visible';
-
-                var divbar2=document.getElementById("selectType");
-                divbar2.style.display='none';
-
-                var divbar1=document.getElementById("ConfirmationPage");
-                        divbar1.style.display='none';
-
-                var divbar11=document.getElementById("roomSelect");
-                divbar11.style.display='block';
-
-
-
-	    }
-
-
-
-
-
-	    function makeVisible(id)
-	    {
-	    	var divbar=document.getElementById(id);
-    		divbar.style.display='block';	 
-    	
-    		 $('html,body').animate({
-		            scrollTop: $("#keepHidden1").offset().top},
-		            'slow');
-	    }
-	 	function dropdownSelected(type)
-	 	{
-	 		myElement = $("#payment");
-	 		myElement.value = type+"";
-	 	}
- 
-	 
-	 	$(".dropdown-menu li a").click(function(){
-	 		  var selText = $(this).text();
-	 		  $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-	 		  
-	 		});
-
-	  	function PaymentDone()
-	 	{
-			var divbar=document.getElementById("payment_Status_success");
-    		divbar.style.display='block';	 
-	 	}
-
-
-        function get_Room()
-        {
-            var data1 = {};
-            $.post("/availablerooms")
-            .done(function(data){
-                //console.log(data);
-                data1 = JSON.parse(data);
-                console.log(data1);
-                var s="";
-                console.log(data1);
-                for(var i=0;i<data1.single_rooms.length;i++) {
-                    s=s+'<option>'+data1.single_rooms[i].number+'  '+data1.single_rooms[i].acstatus+'   '+data1.single_rooms[i].cost+'</option>';
-                }
-                document.getElementById("available_single_rooms").innerHTML=s;
-                s='';
-                roomlistid = document.getElementById("available_double_rooms");
-                for(var i=0;i<data1.double_rooms.length;i++) {
-                    s=s+'<option>'+data1.double_rooms[i].number+'  '+data1.double_rooms[i].acstatus+'   '+data1.double_rooms[i].cost+'</option>';
-                }
-                document.getElementById("available_double_rooms").innerHTML=s;
-                s='';
-                roomlistid = document.getElementById("available_triple_rooms");
-                for(var i=0;i<data1.triple_rooms.length;i++) {
-                    s=s+'<option>'+data1.triple_rooms[i].number+'  '+data1.triple_rooms[i].acstatus+'   '+data1.triple_rooms[i].cost+'</option>';
-                }
-                console.log(s);
-                document.getElementById("available_triple_rooms").innerHTML=s;
-                s='';
-            });
-            $('.modal-title').text('Room Availability');
-            document.getElementById('confirm').style.visibility = 'hidden';
-            document.getElementById('proceed').style.visibility = 'visible';
-
-            var divbar1=document.getElementById("model1");
-            divbar1.style.display='block';
-
-            var divbar1=document.getElementById("ConfirmationPage");
-            divbar1.style.display='none';
-
-
-            var divbar21=document.getElementById("personal_details");
-            divbar21.style.display='none';
-
-
-
-        }
-
-        function proceed()
-        {
-
-               var countries = [];
-                    $.each($(".selectpicker option:selected"), function()
-                    {
-                        countries.push($(this).val());
-                    });
-                alert("You have selected the country - " + countries.join(", "));
-                console.log("You have selected the country - " + countries.join(", "));
-
-                        var divbar12=document.getElementById("model1");
-                        divbar12.style.display='none';
-
-                        var divbar1=document.getElementById("ConfirmationPage");
-                        divbar1.style.display='none';
-
-                        var divbar21=document.getElementById("personal_details");
-                        divbar21.style.display='block';
-
-                    document.getElementById('proceed').style.visibility = 'hidden';
-                    document.getElementById('confirm').style.visibility = 'visible';
-
-
-                      $('.modal-title').text('Personal Details');
-        }
-        function ConfirmationDone()
-        {
-                        $('.modal-title').text('Room Booked');
-
-                        document.getElementById('confirm').style.visibility = 'hidden';
-
-                         var divbar1=document.getElementById("ConfirmationPage");
-                        divbar1.style.display='block';
-
-
-                        var divbar=document.getElementById("model1");
-                        divbar.style.display='none';
-
-                        var divbar21=document.getElementById("personal_details");
-                        divbar21.style.display='none';
-
-
-        }
-
-            $(document).ready(function() {
-                $('#example-getting-started').multiselect();
-            });
-    </script>
+t   <!-- Script to Activate the Carousel -->
 
 
 </body>

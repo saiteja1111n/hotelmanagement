@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <script type="text/javascript" src="js/userjs.js"></script>
     
     <title>Contact  Us</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -22,6 +22,78 @@
  
     <div class="brand">Hotel Plaza</div>
     <div class="address-bar">Hyderabad, Gachibowly</div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Rooms Availability</h4>
+                </div>
+                <div class="modal-body"id="model1">
+    <!-- Single button -->
+                    <div id="selectType" class="form-group">
+                        <div class="form-group">
+                            <label for="available_room"><h4>Select room type:</h4><h6>(For multiple rooms ctrl-select)</h6></label>
+                            <div id="available_room" class="form-group">
+                                <div class="available_room" >
+                                    <label for="available_single_rooms">Single Rooms</label>
+                                    <select id="available_single_rooms" multiple></select>
+                                </div>
+                                <div class="available_room">
+                                    <label for="available_double_rooms">Double Rooms</label>
+                                    <select id="available_double_rooms" multiple></select>
+                                </div>
+                                <div class="available_room">
+                                    <label for="available_triple_rooms">Triple Rooms</label>
+                                    <select id="available_triple_rooms" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="startdate">From:</label>
+                        <input type="date" id="startdate" value="2014-02-09" min="">
+                        <label for="enddate" >&nbsp;&nbsp;Till:</label>
+                        <input type="date" id="enddate" value="2014-02-09" ><br>
+                    </div>
+                    <div class="modal-body"id="model2"></div>
+                </div>
+
+                <div class="box" id="personal_details">
+                    <div class="form-group col-lg-12">
+                        <label><h4>Selected Rooms</h4><h6 id="allrooms"></h6></label>
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label>Name</label>
+                        <input type="text"  id="person_name" class="form-control">
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label>Email Id:</label>
+                        <input type="text" id="person_email" class="form-control">
+                    </div>
+
+                    <div class="form-group col-lg-3">
+                        <label>Mobile number</label>
+                        <input type="tel" id="person_mobileno" class="form-control">
+                    </div>
+                </div>
+
+                <div class="box" id="ConfirmationPage">
+                    <h3>Details</h3>
+                    <p>Thankyou for your order We will get back to you soon through mail </p>
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="form-group col-lg-12">
+                        <button type="submit" class="btn btn-default" id="proceed" onclick="proceed()">Proceed</button>
+                        <button type="submit" class="btn btn-default" id="back" onclick="get_Room()">Back</button>
+                        <button  type="submit" class="btn btn-default" id="confirm" onclick="ConfirmationDone()" >Confirm Reservation</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
      <nav class="navbar navbar-default" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -39,10 +111,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="index1.html">Home</a>
+                        <a href=".">Home</a>
                     </li>
                      <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="contact">Contact</a>
                     </li>
                      <li>
                         <a href="" onclick="get_Room()" data-toggle="modal" data-target="#myModal">Get A room</a>
@@ -69,7 +141,7 @@
                         <div class="row">
                             <div class="form-group col-lg-1">
                                 <label>Rating</label>
-                                <input type="text" class="form-control">
+                                <input type="text" id="user_rating"class="form-control">
                             </div>
                      	</div>
                      	</form>
@@ -95,7 +167,7 @@
                             </div>
                             <div class="form-group col-lg-12">
                                 
-                                <button type="submit"  onclick=check("status") class="btn btn-default">Submit</button>
+                                <button type="submit"  onclick="feedback()" class="btn btn-default">Submit</button>
                             </div>
                         </div>
                   
@@ -108,37 +180,5 @@
      </div>
    <script src="js/jquery.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  
-  
-  
-    
-    <script>
-	   
-	 	function check(id) 
-	    { 
-	    	var name=document.getElementById("name").value;
-	    	  
-	    	var email=document.getElementById("email").value;
-	     
-	    	var msg=document.getElementById("msg").value;
-	    	 
-	    	 
-	    	if( name.length>=1 && email.length>=0 && msg.length>3 )
-	    	{
-	    		var divbar=document.getElementById(id);
-	    		divbar.style.display='block';	 
-	    		
-	    		 $('html,body').animate({
-			            scrollTop: $("#keepHidden").offset().top},
-			            'slow');
-	    	}
-	    	else
-	    		window.alert(" Error!!! Please check the details");
-	    	
-	    	
-	    }
-    </script>
-    
-    
  </body>
 </html>

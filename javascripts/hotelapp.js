@@ -26,7 +26,7 @@ function removerooms() {
             rooms: document.getElementById("roomno1").value,
         };
         var data = JSON.stringify(objectData);
-        $.post("/removeroom",data)
+        $.post("/confirmrequest",data)
         .done(function(data){
             console.log("Success:" + data);
         });
