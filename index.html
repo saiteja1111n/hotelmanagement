@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% autoescape true %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -41,7 +42,7 @@
     <![endif]-->
   </head>
 
-  <body>
+  <body onload="ready()">
   <!-- container section start -->
         <section id="container" class="">
      
@@ -52,7 +53,7 @@
             </div>
 
             <!--logo start-->
-            <a href="index.html" class="logo">Admin <span class="lite">Home</span></a>
+            <a href="admin" class="logo">Admin <span class="lite">Home</span></a>
             <!--logo end-->
 
             <div class="top-nav notification-row">
@@ -63,64 +64,27 @@
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-envelope-l"></i>
-                            <span class="badge bg-important">5</span>
+                            <span id="feeds" class="badge bg-important">{{unreadfeeds|length}}</span>
                         </a>
-                        <ul class="dropdown-menu extended inbox">
+                        <ul id="feedlist" class="dropdown-menu extended inbox" >
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
-                                <p class="blue">You have 5 new messages</p>
+                                <p id="feeds1" class="blue">You have {{unreadfeeds|length}} new messages</p>
                             </li>
+                            {% for feeds in unreadfeeds %}
                             <li>
                                 <a href="#">
-                                    <span class="photo"><img alt="avatar" src="/img/avatar-mini.jpg"></span>
+                                    <!--<span class="photo"><img alt="avatar" src="/img/avatar-mini.jpg"></span>-->
                                     <span class="subject">
-                                    <span class="from">Greg  Martin</span>
-                                    <span class="time">1 min</span>
+                                    <span class="from">{{feeds.user.Name}}</span>
+                                    <span class="time">{{feeds.date.strftime('%d-%m-%y')}}</span>
                                     </span>
                                     <span class="message">
-                                        I really like this admin panel.
+                                        {{feeds.message}}
                                     </span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="/img/avatar-mini2.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Bob   Mckenzie</span>
-                                    <span class="time">5 mins</span>
-                                    </span>
-                                    <span class="message">
-                                     Hi, What is next project plan?
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="/img/avatar-mini3.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Phillip   Park</span>
-                                    <span class="time">2 hrs</span>
-                                    </span>
-                                    <span class="message">
-                                        I am like to buy this Admin Template.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="/img/avatar-mini4.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Ray   Munoz</span>
-                                    <span class="time">1 day</span>
-                                    </span>
-                                    <span class="message">
-                                        Icon fonts are great.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">See all messages</a>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </li>
                     <!-- inbox notificatoin end -->
@@ -130,7 +94,7 @@
                             <span class="profile-ava">
                                 <img alt="" src="img/avatar1_small.jpg">
                             </span>
-                            <span class="username">Jenifer Smith</span>
+                            <span class="username">{{user.user}}</span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
@@ -159,7 +123,7 @@
               <!-- sidebar menu start-->
               <ul class="sidebar-menu">                
                   <li class="active">
-                      <a class="" href="index.html">
+                      <a class="" href="admin">
                           <i class="icon_house_alt"></i>
                           <span>Dashboard</span>
                       </a>
@@ -204,23 +168,23 @@
             <div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="ToBeConformed">
 					<div class="info-box red-bg">
-						<div class="count">8</div>
-						<div class="title">Rooms To Be Conformed</div>
+						<div id="confirmno" class="count">{{unconfirmed_bookings|length}}</div>
+						<div id="confirmtitle" class="title">Rooms To Be Conformed</div>
 					</div><!--/.info-box-->
 				</div><!--/.col-->
 				
 				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="Confirmed">
 					<div class="info-box green-bg">
-						<div class="count">8</div>
-						<div class="title">Conformed Rooms Ahead of Present Day</div>
+						<div id="confirmedno" class="count">{{confirmed_bookings|length}}</div>
+						<div id="confirmedtitle" class="title">Conformed Rooms Ahead of Present Day</div>
 					</div><!--/.info-box-->			
 				</div><!--/.col-->	
 				
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" id="customer_message">
 					<div class="info-box dark-bg">
 						<i class="fa fa-thumbs-o-up"></i>
 						<div class="count"></div>
-						<div class="title">Current Status</div>
+						<div class="title">Cusomer Messages</div>
 					</div><!--/.info-box-->			
 				</div><!--/.col-->
 			</div><!--/.row-->
@@ -261,49 +225,64 @@
                                </div>
 
 
-                                <div id="ToConfirm">
-                                    <ul>
-                                          <li>
-                                                <div class="from"><h3> Room Number</h3></div>
-                                                <div class="sub"> <h3>Room To be booked by</h3></div>
-                                                <div class="sub"><h3> Comfirmation </h3></div>
+                                <div class="roomsinfo" id="ToConfirm">
+                                    <ul class="message-list-cls">
+                                          <li class="message-cls">
+                                                <div width="50%"><h3> Room Numbers</h3></div>
+                                                <div width="30%"> <h3>Room To be booked by</h3></div>
+                                                <div width="10%"><h3> Comfirmation </h3></div>
                                           </li>
+                                        {% for bookings in unconfirmed_bookings %}
 
-                                            <li>
-                                                <div class="from"><h3 class="txt"> Room 1</h3></div>
-                                                <div class="desc"> <h3 class="txt"> Sudha</h3></div>
-                                                <div class="sub"> <button class="btn"  onclick="bookRoom()">Book the room</button> </div>
-                                          </li>
+                                            <li class="message-cls">
+                                                <div width="50%"><h3 class="txt"> {% for rmno in bookings.roomsbooked %}{{rmno+',   '}}{% endfor %}</h3></div>
+                                                <div width="30%"> <h3 class="txt"> {{bookings.Name}}</h3></div>
+                                                <div width="10%" > <button class="btn"  onclick="bookRoom()">Book the room</button> </div>
+                                            </li>
 
+                                        {% endfor %}
 
 
                                     </ul>
                                 </div>
 
-                                <div id="ConfirmedRooms">
+                                <div class="roomsinfo" id="ConfirmedRooms">
 
-                                     <ul>
-                                          <li>
+                                     <ul class="message-list-cls">
+                                          <li class="message-cls">
                                                 <div class="from"><h3> Room Number</h3></div>
                                                 <div class="sub"> <h3>Room booked By </h3></div>
                                                 <div class="sub"><h3> Change status</h3></div>
                                           </li>
-
-                                            <li>
-                                                <div class="from"><h3 class="txt"> Room 1</h3></div>
-                                                <div class="desc"> <h3 class="txt"> Sudha</h3></div>
-                                                <div class="sub"> <button class="btn"  onclick="bookRoom()">Cancel</button> </div>
-                                          </li>
+`
+                                          {% for bookings in confirmed_bookings %}
+                                            {% for rmno in bookings.roomsbooked %}
+                                            <li class="message-cls">
+                                                <div class="from"><h3 class="txt"> Room{{rmno}}</h3></div>
+                                                <div class="desc"> <h3 class="txt"> {{bookings.Name}}</h3></div>
+                                                <div class="sub"> <button class="btn"  onclick="bookRoom()">Book the room</button> </div>
+                                            </li>
+                                            {% endfor %}
+                                        {% endfor %}
 
 
 
                                     </ul>
-                                <div>
+                                    </div>
+                                <div class="roomsinfo" id="customer_messages">
 
+                                     <ul class="message-list-cls">`
+                                          {% for feeds in unreadfeeds %}
+                                            <li class="message-cls">
+                                                <div width="20%"><h3 class="txt">Name:{{feeds.user.Name}}</h3></div>
+                                                <div width="60%"> <h3 class="txt"> Message:{{feeds.message}}</h3></div>
+                                                <div width="10%"> <button class="btn"  onclick="bookRoom()">{{feeds.date.strftime('%d-%m-%y')}}</button> </div>
+                                            </li>
 
-                            </div>
-	                    </div>
-					</div>
+                                         {% endfor %}
+
+                                    </ul>
+					            </div>
 
 
 
@@ -373,6 +352,7 @@
                 <!-- statics end -->
 
 </div>
+          </div>
           </div></section>
       </section>
       <!--main content end-->
@@ -456,6 +436,8 @@
             var x=document.getElementById("ConfirmedRooms");
 
             x.style.display= 'none';
+            x=document.getElementById("customer_messages");
+            x.style.display= 'none';
     });
 
 
@@ -471,6 +453,25 @@
 
              var x=document.getElementById("ConfirmedRooms");
 
+            x.style.display= 'block';
+            x=document.getElementById("customer_messages");
+            x.style.display= 'none';
+    });
+
+    $("#customer_message").click(function ()
+    {
+        document.getElementById("dataheader").innerHTML="customer messages";
+        var x=document.getElementById("singleroomform");
+            x.style.display = 'none';
+
+             var x=document.getElementById("ToConfirm");
+
+            x.style.display= 'none';
+
+             var x=document.getElementById("ConfirmedRooms");
+
+            x.style.display= 'none';
+            x=document.getElementById("customer_messages");
             x.style.display= 'block';
     });
 
@@ -528,6 +529,9 @@
 
             x.style.display= 'none';
 
+            x=document.getElementById("customer_messages");
+            x.style.display= 'block';
+
 	}
 
 	function proceed()
@@ -544,3 +548,4 @@
 
   </body>
 </html>
+{% endautoescape %}

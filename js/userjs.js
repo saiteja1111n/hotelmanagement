@@ -194,19 +194,7 @@
             window.location.assign("/.");
 
         });
+    }
 
-
-      /*  if( name.length>=1 && email.length>=0 && msg.length>3 )
-        {
-            var divbar=document.getElementById(id);
-            divbar.style.display='block';
-
-             $('html,body').animate({
-                    scrollTop: $("#keepHidden").offset().top},
-                    'slow');
-        }
-        else
-            window.alert(" Error!!! Please check the details");
-        */
-
+    function ready(){
     }

@@ -26,6 +26,7 @@ class Person(ndb.Model):
     mailId = ndb.StringProperty(indexed=True)
     phno = ndb.StringProperty(indexed= False)
     Name = ndb.StringProperty(indexed = False)
+    bookingstatus = ndb.BooleanProperty(indexed = False,default=False)
 
 class Room(ndb.Model):
     number = ndb.StringProperty(indexed =True)
@@ -115,10 +116,46 @@ class savefeedback(webapp2.RequestHandler):
         self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
         self.response.write(data)
 
+
+class adminpage(webapp2.RequestHandler):
+    def get(self):
+        user=users.get_current_user()
+        if user:
+            template=JINJA_ENVIRONMENT.get_template('index.html')
+            f1 =Userfeedbacks.query().fetch()
+            fl1=[]
+            fl2=[]
+            for f in f1:
+                if f.status == "unread":
+                    fl1.append(f)
+                else:
+                    fl2.append(f)
+            p1 =Person.query().fetch()
+            bl1=[]
+            bl2=[]
+            for p in p1:
+                if not p.bookingstatus:
+                    bl1.append(p)
+                else:
+                    bl2.append(p)
+            template_values = {
+                'user': user,
+                'unreadfeeds': fl1,
+                'readfeeds':fl2,
+                'confirmed_bookings': bl2,
+                'unconfirmed_bookings':bl1,
+            }
+            self.response.write(template.render(template_values))
+        else:
+            self.redirect(users.create_login_url(self.request.uri))
+
+
+
 app = webapp2.WSGIApplication([
     ('/', indexPage),
     ('/availablerooms', getavailableRooms),
     ('/conformrequest', confirmrequest),
     ('/contact',contactpage),
     ('/feedback',savefeedback),
+    ('/admin', adminpage),
 ], debug=True)
