@@ -235,8 +235,8 @@
                                         {% for bookings in unconfirmed_bookings %}
 
                                             <li class="message-cls">
-                                                <div width="50%"><h3 class="txt"> {% for rmno in bookings.roomsbooked %}{{rmno+',   '}}{% endfor %}</h3></div>
-                                                <div width="30%"> <h3 class="txt"> {{bookings.Name}}</h3></div>
+                                                <div width="50%"><h3 class="txt"> {{bookings.number}}</h3></div>
+                                                <div width="30%"> <h3 class="txt"> {{bookings.customer.Name}}</h3></div>
                                                 <div width="10%" > <button class="btn"  onclick="bookRoom()">Book the room</button> </div>
                                             </li>
 
@@ -256,16 +256,12 @@
                                           </li>
 `
                                           {% for bookings in confirmed_bookings %}
-                                            {% for rmno in bookings.roomsbooked %}
                                             <li class="message-cls">
-                                                <div class="from"><h3 class="txt"> Room{{rmno}}</h3></div>
-                                                <div class="desc"> <h3 class="txt"> {{bookings.Name}}</h3></div>
-                                                <div class="sub"> <button class="btn"  onclick="bookRoom()">Book the room</button> </div>
+                                                <div class="from"><h3 class="txt"> Room{{bookings.number}}</h3></div>
+                                                <div class="desc"> <h3 class="txt"> {{bookings.customer.Name}}</h3></div>
+                                                <div class="sub"> <button class="btn"  onclick="bookRoom({{booking.number}},{{bookings.customer.Name}})">Book the room</button> </div>
                                             </li>
-                                            {% endfor %}
-                                        {% endfor %}
-
-
+                                         {% endfor %}
 
                                     </ul>
                                     </div>
