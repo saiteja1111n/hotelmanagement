@@ -36,7 +36,6 @@ function removerooms() {
 
 }
 function getaroom(){
-    var p=document.getElementById("roomno").value;
     console.log(p);
     if( p.length==0){
         alert("you didnt submit any number to cancel");

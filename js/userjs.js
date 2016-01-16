@@ -220,7 +220,6 @@
             $.post("/feedback",data)
             .done(function(data){
                 console.log("success");
-                console.log(data);
                 alert("Feedback Successfully submitted");
                 window.location.assign("/.");
 
@@ -228,21 +227,34 @@
         }
     }
 
-//    function bookRoom(x,y){
-//        data={
-//            'roomno':x,
-//            'customer_name'y,
-//        }
-//        data = JSON.stringify(data);
-//        $.post("/confirm_rm",data)
-//        .done(function(data){
-//            console.log("success");
-//            console.log(data);
-//            alert("Feedback Successfully submitted");
-//            window.location.assign("/.");
-//
-//        });
-//    }
+    function bookRoom(x,z){
+        data={
+            'roomno':x,
+        }
+        data = JSON.stringify(data);
+        $.post("/confirm_rm",data)
+        .done(function(data){
+            console.log("success");
+            console.log(data);
+            var s=document.getElementById(z)
+            s.style.display="none";
+        });
+    }
+
+    function cancelRoom(x){
+        data={
+            'roomno':x,
+        }
+        data = JSON.stringify(data);
+        $.post("/cancel_rm",data)
+        .done(function(data){
+            console.log("success");
+            console.log(data);
+            document.getElementById(x+"s").style.display="none";
+        });
+    }
+
+
 
     function validate_mobile(fld) {
          if (fld.value == "") {
@@ -303,4 +315,32 @@
             return false;
         }
         return true;
+    }
+
+    function addroom(x) {
+        var y=1;
+        if(x=="Single Room Allocation") {
+            y=1;
+        } else if(x=="Double Room Allocation") {
+            y=2;
+        } else {
+            y=3;
+        }
+        alert("i am on right track");
+        var data = {
+                'room_type':y,
+                'room_number':document.getElementById("room_number").value,
+                'room_cost':document.getElementById("room_cost").value,
+                'ac_type':document.getElementById("room_type").value,
+        };
+
+        $.post("/addroom",data)
+            .done(function(data){
+                alert("success");
+                console.log(data);
+                window.location.assign("/.");
+            });
+
+
+
     }

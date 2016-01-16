@@ -155,15 +155,46 @@ class adminpage(webapp2.RequestHandler):
         else:
             self.redirect(users.create_login_url(self.request.uri))
 
-# class confirm_room(webapp2.RequestHandler):
-#     def post(self):
-#         vals = json.loads(cgi.escape(self.request.body))
-#         user = Person.query(Person.Name==vals['customer_name']).get()
-#         if user:
+class confirm_room(webapp2.RequestHandler):
+    def post(self):
+        vals = json.loads(cgi.escape(self.request.body))
+        rm = Room.query(Room.number==str(vals['roomno'])).get()
+        message={}
+        if rm:
+            rm.status="confirmed"
+            rm.put()
+            message={"message":"success"}
+        else:
+            message={"message":"failed to confirm room"}
+        data = json.dumps(message)
+        self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+        self.response.write(data)
 
 
+class cancel_room(webapp2.RequestHandler):
+    def post(self):
+        vals = json.loads(cgi.escape(self.request.body))
+        rm = Room.query(Room.number==str(vals['roomno'])).get()
+        message={}
+        if rm:
+            rm.status="available"
+            rm.put()
+            message={"message":"success"}
+        else:
+            message={"message":"failed to confirm room"}
+        data = json.dumps(message)
+        self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+        self.response.write(data)
 
-
+class add_room(webapp2.RequestHandler):
+    def post(self):
+        vals=json.load(cgi.escape(self.request.body))
+        s = Room(number=vals['room_number'],status="available",type=vals['room_type'],acstatus=vals['ac_type'],cost=vals['room_cost'])
+        s.put();
+        message={"message":"room added. Please refresh to see the update"}
+        data = json.dumps(message)
+        self.response.headers.add_header('content-type', 'application/json', charset='utf-8')
+        self.response.write(data)
 
 app = webapp2.WSGIApplication([
     ('/', indexPage),
@@ -172,5 +203,7 @@ app = webapp2.WSGIApplication([
     ('/contact',contactpage),
     ('/feedback',savefeedback),
     ('/admin', adminpage),
-    # ('/confirm_rm',confirm_room),
+    ('/confirm_rm',confirm_room),
+    ('/cancel_rm',cancel_room),
+    ('/addroom',add_room),
 ], debug=True)
